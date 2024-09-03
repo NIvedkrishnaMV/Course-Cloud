@@ -12,14 +12,32 @@ const Login = () => {
   
   const handleSubmit =async(event)=>{
     try {
-      if(email===''||password===''){
+      if (email === '' || password === '') {
         alert("you missed a value")
-      }
-      else{
-       alert("logged in");
+      } else {
+        const response = await axios.post('http://localhost:3001/log',JSON.stringify({ email, password }));
+        if (response.status === 200) {
+          const user = response.data;
+          alert("Successfully logged in")
+        } else if (response.status === 404) {
+          const errorMessage = response.data;
+          if (errorMessage === "Email not registered") {
+            alert("Email not registered");
+          } else if (errorMessage === "Incorrect password") {
+            alert("Incorrect password");
+          } else {
+            alert("Error logging in");
+          }
+        } else {
+          alert("Error logging in");
+        }
       }
     } catch (error) {
-      alert("couldnt log in");
+      if (error.response) {
+        alert("Error logging in: " + error.response.data);
+      } else {
+        alert("Couldn't log in");
+      }
     }
   }
   
