@@ -4,7 +4,6 @@ const morgan =require('morgan');
 require('dotenv').config();
 require('./db/connections.js');
 const userRoutes= require('./routes/userRoutes.js');
-const pdfRoutes = require('./routes/userRoutes.js');
 const Port= 3001;
 
 
