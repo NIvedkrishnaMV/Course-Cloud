@@ -1,0 +1,94 @@
+.container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .navbar {
+    background-color:inherit;
+    height: 10%;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .search-bar input[type="search"] {
+    padding: 10px;
+    border: none;
+    border-radius: 30px 5px 5px 30px ; 
+    margin-right: 2px;
+    width: 80%;
+  }
+  .search-bar button {
+    background-color: #333;
+    flex-grow: 1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px 30px 30px 5px;
+    cursor: pointer;
+  }
+  
+  .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links li {
+    margin-right: 20px;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .side-navbar {
+    background-color: #f0f0f0;
+    width: 30%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .div1, .div2 {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ddd;
+  }
+  
+  .div1 {
+    flex: 1;
+  }
+  
+  .div2 {
+    display: flex;
+    justify-content: end;
+  }
+
+  .sNavbutton {
+    height: fit-content;
+    width: 100%; /* Set the width of each button to 100% of the container */
+    flex: 1; /* Allow the buttons to grow and shrink */
+    margin: 10px; /* Add some margin around the buttons */
+    padding: 20px; /* Add some padding to the buttons */
+    border: none; /* Remove the default border */
+    border-radius: 5px; /* Add a rounded corner effect */
+    background-color: #4CAF50; /* Set the background color */
+    color: #fff; /* Set the text color */
+    cursor: pointer; /* Change the cursor to a pointer */
+  }
+  
+  .sNavbutton:hover {
+    background-color: #3e8e41; /* Change the background color on hover */
+  }
