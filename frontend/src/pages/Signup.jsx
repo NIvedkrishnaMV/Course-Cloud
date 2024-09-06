@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
 const Signup = () => {
@@ -8,7 +9,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
-  const [error,setError]=useState(null)
+  const [error,setError]=useState(null);
+  const navigate =useNavigate();
 
 
  const handleSubmit=async(event)=>{
@@ -25,6 +27,7 @@ const Signup = () => {
     }
     else if(res.status ===200){
       alert("registered successfully");
+      navigate('/login');
     }
     else{
       setError(res.data)

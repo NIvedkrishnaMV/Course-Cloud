@@ -7,24 +7,24 @@ import axios from 'axios'
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
   const navigate =useNavigate()
   
   const handleSubmit =async(event)=>{
     try {
       if (email === '' || password === '') {
-        alert("you missed a value")
+        alert("You missed a value");
       } else {
-        const response = await axios.post('http://localhost:3001/log',JSON.stringify({ email, password }));
+        const response = await axios.post('http://localhost:3001/apiu/log', {email,password});
         if (response.status === 200) {
-          const user = response.data;
-          alert("Successfully logged in")
+          alert("Successfully logged in");
+          navigate('/landing');
         } else if (response.status === 404) {
           const errorMessage = response.data;
-          if (errorMessage === "Email not registered") {
-            alert("Email not registered");
-          } else if (errorMessage === "Incorrect password") {
-            alert("Incorrect password");
+          if (errorMessage === 'Email not registered') {
+            alert('Email not registered');
+          }
+          else if(errorMessage === 'Incorrect password'){
+            alert('Incorrect password');
           } else {
             alert("Error logging in");
           }
@@ -33,13 +33,19 @@ const Login = () => {
         }
       }
     } catch (error) {
-      if (error.response) {
-        alert("Error logging in: " + error.response.data);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert("Error logging in: " + error.response.data);
+        } else {
+          alert("Couldn't log in");
+        }
       } else {
-        alert("Couldn't log in");
+        console.error(error);
+        alert("An unexpected error occurred");
       }
-    }
+    }    
   }
+  
   
 
   return (

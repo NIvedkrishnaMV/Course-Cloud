@@ -54,11 +54,13 @@
 }
 .buttons{
     margin-right: 3%;
+    width: 25%;
     display: flex;
 }
 .logBtn{
     background-color: #067fe3;
-    display: flex;
+    color: #ffffff;
+    font-size: larger;
     border: none;
     border-radius: 10px;
     box-shadow: 2px 2px 2px rgb(120, 120, 120);
@@ -70,6 +72,8 @@
 .signBtn{
     background-color: #ffffff;
     border-radius: 20px;
+    font-size: larger;
+    margin-left: 20px;
     border: none;
     box-shadow: 2px 2px 2px rgb(120, 120, 120);
     height: 40px;
@@ -152,9 +156,9 @@
 
   #search-button{
     flex: 1 1 auto;
-    border: solid 2px #1674c1;
+    border: none;
     border-radius: 0 50px 50px 0;
-    background-color: #389cee;
+    background-color: inherit;
   }
   
   .heading1{
