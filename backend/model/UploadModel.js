@@ -13,10 +13,6 @@ const UploadSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  uploadedBy: {
-    type: String,
-    required: true,
-  },
   uploadedAt: {
     type: Date,
     default: Date.now,

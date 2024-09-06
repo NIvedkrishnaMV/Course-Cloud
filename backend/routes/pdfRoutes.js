@@ -12,10 +12,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const {filename,uploadedBy}=req.body;
   try {
     const uploadFile = new UploadModel({
-      filename,
+      filename: req.file.originalname,
       filedata: req.file.buffer,
-      fileSize: req.file.size,
-      uploadedBy
+      fileSize: req.file.size
     });
 
     await uploadFile.save();
