@@ -6,10 +6,12 @@ const UploadModel = require('../model/UploadModel');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-const upload = multer({ dest: './uploads/' });
+const upload = multer({
+  dest: './uploads/',
+  limits: { fileSize: 1024 * 1024 * 50 }, 
+});
 
 router.post('/upload', upload.single('file'), async (req, res) => {
-    const {filename,uploadedBy}=req.body;
   try {
     const uploadFile = new UploadModel({
       filename: req.file.originalname,

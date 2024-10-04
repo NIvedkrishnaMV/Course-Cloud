@@ -1,5 +1,5 @@
 // import { AppBar, Box, Button, TextField, Typography } from "@mui/material";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 import React, { useState } from 'react';
 import axios from 'axios'
@@ -16,9 +16,16 @@ const Login = () => {
       } else {
         const response = await axios.post('http://localhost:3001/apiu/log', {email,password});
         if (response.status === 200) {
-          alert("Successfully logged in");
-          navigate('/landing');
-        } else if (response.status === 404) {
+          if(response.data.isAdmin){
+            alert("Welcome Admin");
+            navigate('/admin');
+          }
+          else{
+            alert("Welcome User");
+            navigate('/landing');
+          }
+        }
+        else if (response.status === 404) {
           const errorMessage = response.data;
           if (errorMessage === 'Email not registered') {
             alert('Email not registered');
