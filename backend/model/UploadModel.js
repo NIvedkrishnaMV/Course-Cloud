@@ -1,24 +1,10 @@
 const mongoose = require('mongoose');
 
 const UploadSchema = new mongoose.Schema({
-  filename: {
-    type: String,
-    required: true,
-  },
-  filedata: {
-    type: Buffer,
-    required: true,
-  },
-  fileSize: {
-    type: Number,
-    required: true,
-  },
-  uploadedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+ pdf:String,
+ title:String
+},{collection:"pdfDetails"});
 
-const UploadModel = mongoose.model('Upload', UploadSchema,'uploads');
+const UploadModel = mongoose.model('pdfDetails', UploadSchema);
 
 module.exports = UploadModel;

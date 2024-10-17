@@ -1,0 +1,110 @@
+.upload-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .drop-zone {
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .drop-zone:hover {
+    border-color: #aaa;
+  }
+  
+  .drop-zone p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .browse-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .browse-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .file-list {
+    margin-top: 20px;
+  }
+  
+  .file-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .file-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .file-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .file-list li:hover {
+    background-color: #f0f0f0;
+  }
+
+/* upload button */
+  #uploadButton {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  
+  #uploadButton:hover {
+    background-color: #3e8e41;
+  }
+
+  /* title */
+
+  #title {
+    /* Add some padding to the input field */
+    padding: 10px;
+    /* Change the font size and family */
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    /* Add a border around the input field */
+    border: 1px solid #ccc;
+    /* Add some rounded corners */
+    border-radius: 5px;
+  }
+
+  #title:focus {
+    /* Change the border color when the input field is focused */
+    border-color: #aaa;
+    /* Add a box shadow when the input field is focused */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Heading */
+  .heading {
+    /* Change the font size and family */
+    font-size: 36px;
+    font-family: Arial, sans-serif;
+    /* Add some color to the heading */
+    color: #333;
+    /* Add some margin to the heading */
+    margin-bottom: 20px;
+    text-align: center;
+  }

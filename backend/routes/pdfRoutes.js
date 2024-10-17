@@ -1,28 +1,46 @@
 const express = require('express');
-const multer = require('multer');
-const router = express();
+const router = express.Router();
 const UploadModel = require('../model/UploadModel');
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './files')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now()
+    cb(null, uniqueSuffix+file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-const upload = multer({
-  dest: './uploads/',
-  limits: { fileSize: 1024 * 1024 * 50 }, 
-});
 
-router.post('/upload', upload.single('file'), async (req, res) => {
+
+router.post("/upload-files",upload.single("file"),async(req,res)=>{
+  console.log(req.file);
+  const title=req.body.title;
+  const fileName= req.file.filename;
   try {
-    const uploadFile = new UploadModel({
-      filename: req.file.originalname,
-      filedata: req.file.buffer,
-      fileSize: req.file.size
-    });
-
-    await uploadFile.save();
-    return res.send('File uploaded successfully');
+    await UploadModel.create({title : title , pdf : fileName});
+    res.send({ status:"ok"});
   } catch (error) {
-    console.error(error);
-    return res.status(500).send('Error uploading file');
+    res.send({status:error});
   }
-});
+})
+
+router.get("/view",async (req,res)=>{
+  try {
+    UploadModel.find({}).then(data=>{
+      res.send({status:"ok" ,data :data });
+    })
+  } catch (error) {
+    
+  }
+})
+
+
+module.exports = router;

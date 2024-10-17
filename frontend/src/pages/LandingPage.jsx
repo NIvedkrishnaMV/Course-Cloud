@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './landingPage.css';
 import { Link } from 'react-router-dom';
 
 function LandingPage() {
+
+
+  const [allPdf, setAllPdf] = useState(null);
+
+useEffect(()=>{
+  getPdf();
+},[])
+
+const getPdf=async ()=>{
+  const result=await axios.get("http://localhost:3001/apip/view");
+  setAllPdf(result.data.data);
+  console.log( result.data.data);
+}
+
+
   return (
     <div className="Lan-container">
       <nav className="Lan-navbar">
