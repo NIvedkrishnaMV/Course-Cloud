@@ -6,6 +6,7 @@ import Signup from '../src/pages/Signup';
 import LandingPage from './pages/LandingPage';
 import Upload from './pages/Upload';
 import AdminPanel from './pages/AdminPanel';
+import PdfComp from './pages/PdfComp';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Route path='/landing' element={<LandingPage />}/>
       <Route path="/upload" element={<Upload />} />
       <Route path='/admin' element={<AdminPanel/>} />
+      <Route path='/pdf' element={<PdfComp/>} />    
     </Routes>
   )
 }
