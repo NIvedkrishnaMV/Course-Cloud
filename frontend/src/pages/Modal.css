@@ -1,0 +1,70 @@
+/* src/components/Modal.css */
+.modal-overlay {
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    width: 500px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content h3{
+    display: flex;
+    align-content: center;
+    margin-left: 40%;
+    font-size: larger;
+    size: 100cm;
+  }
+  
+  .close-button {
+    color: black;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border:0 px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .login-btn {
+    background-color: rgba(5, 102, 228, 0.668); /* Green */
+    color: white;
+    margin-left: 199px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* css for input tags on the login */
+.email-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 95%; /* Adjust width as needed */
+  margin-bottom: 10px; /* Space between inputs */
+}
+
+.password-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 95%; /* Adjust width as needed */
+  margin-bottom: 10px; /* Space between inputs */
+}

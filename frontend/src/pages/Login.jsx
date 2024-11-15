@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 import React, { useState } from 'react';
 import axios from 'axios'
+import './modal.css';
 
-const Login = () => {
+const Login = ({isOpen, onClose}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate =useNavigate()
@@ -53,20 +54,36 @@ const Login = () => {
     }    
   }
   
+  if(!isOpen) return null;
   
 
   return (
-    <div>
-<div className='logdiv'>
-  <h3 className='logh3'>Login</h3>
-  <br /><br />
-  <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder="Email" className='loguser' />
-  <br /><br />
-  <input type="password" onChange={(e) => setPassword(e.target.value)} className='logpass' placeholder="Password" />
-  <br /><br />
-  <button type="submit" onClick={handleSubmit}  className='logbut'>Log In</button>
+<div className="modal-overlay">
+<div className="modal-content">
+    <button className="close-button" onClick={onClose}>X</button>
+    <h3>Login</h3>
+    <form onSubmit={handleSubmit}>
+        <input
+            className='email-input'
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+        /><br /><br />
+        <input
+            className='password-input'
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+        /><br />
+          <br />
+        <button className="login-btn" type="submit">Log In</button>
+    </form>
 </div>
-    </div>
+</div>
   )
 }
 

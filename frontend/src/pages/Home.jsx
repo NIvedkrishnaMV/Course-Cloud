@@ -3,16 +3,31 @@ import './style.css';
 import logo from './logo.jpg'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Login from './Login';
+import Signup from './Signup';
 
 const Home = () => {
+  
+  //this it for the searchBar
   const [searchText, setSearchText] = useState('');
-
   const handleSearch = () =>{
     console.log('clicked');
   }
   const handleClear = () => {
     setSearchText('');
   };
+
+ //overlay menu shows the loginPage
+ const [isModalOpen, setIsModalOpen] = useState(false);
+ const openModal = () => setIsModalOpen(true);
+ const closeModal = () => setIsModalOpen(false);
+ 
+//for the signUp page
+const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+const openSignUp = () => setIsSignUpOpen(true);
+const closeSignUp = () => setIsSignUpOpen(false)
+ 
+ 
   return (
     <div className="home">
       <div className='ImageContainer' ><div className="image"></div></div>
@@ -24,8 +39,13 @@ const Home = () => {
       <div className="home-items">
         <div className="navbar">
           <div className="buttons">
-            <Link to={"/login"}><button className="logBtn">Login</button></Link>
-           <Link to={"/signup"}> <button className='signBtn'>Sign Up</button></Link>
+           <button onClick={openModal} className="logBtn">Login</button>
+           <Login isOpen={isModalOpen} onClose={closeModal}></Login>
+
+            <button className='signBtn' onClick={openSignUp}>SignUp</button>          
+           {/* <Signup isOpen={isSignUpOpen} onClose={closeSignUp}></Signup > */}
+
+           
           </div> 
         </div>
         
@@ -48,6 +68,9 @@ const Home = () => {
           </button>
           </div>
         </div>
+        <footer className='footer'>
+        <p> Course Cloud. All rights reserved.</p>
+      </footer>
       </div>
     </div>
   )
