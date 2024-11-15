@@ -8,9 +8,10 @@ import './modal.css';
 const Login = ({isOpen, onClose}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate =useNavigate()
+  const navigate =useNavigate();
   
   const handleSubmit =async(event)=>{
+    event.preventDefault();
     try {
       if (email === '' || password === '') {
         alert("You missed a value");
@@ -61,8 +62,8 @@ const Login = ({isOpen, onClose}) => {
 <div className="modal-overlay">
 <div className="modal-content">
     <button className="close-button" onClick={onClose}>X</button>
-    <h3>Login</h3>
-    <form onSubmit={handleSubmit}>
+    <h1>Login</h1>
+    <form>
         <input
             className='email-input'
             type="text"
@@ -80,7 +81,7 @@ const Login = ({isOpen, onClose}) => {
             required
         /><br />
           <br />
-        <button className="login-btn" type="submit">Log In</button>
+        <button className="login-btn" onClick={handleSubmit} type="submit">Log In</button>
     </form>
 </div>
 </div>

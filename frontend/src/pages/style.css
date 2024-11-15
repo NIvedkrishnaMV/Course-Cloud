@@ -180,71 +180,7 @@
     color:#61afef;
   }
 
-/* For loginPage */
-.logdiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .logh3 {
-    margin-bottom: 20px;
-  }
-  
-  .logpass,.loguser {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
-    margin-bottom: 20px;
-  }
-  
-  .logbut {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .logbut:hover {
-    background-color: #3e8e41;
-  }
 
-
-  /* For signup Page */
-  
-  .signdiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .signh3 {
-    margin-bottom: 20px;
-  }
-  
-  .signpass,.signuser {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
-    margin-bottom: 20px;
-  }
-  
-  .signbut {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #1E90FF;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .signbut:hover {
-    background-color: #3e8e41;
-  }
 
 
     /*for footer  */

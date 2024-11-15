@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import './Sign.css';
 
 
-const Signup = () => {
+const Signup = ({isOpen, onClose}) => {
    
   const [uname, setUname] = useState('');
   const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ const Signup = () => {
 
 
  const handleSubmit=async(event)=>{
+  event.preventDefault();
   try {
     const res= await axios.post("http://localhost:3001/apiu/reg",{
       uname,
@@ -27,7 +29,7 @@ const Signup = () => {
     }
     else if(res.status ===200){
       alert("registered successfully");
-      navigate('/login');
+      navigate('/');
     }
     else{
       setError(res.data)
@@ -36,21 +38,22 @@ const Signup = () => {
     setError(error.message);
   }
  }
-
+ if(!isOpen) return null;
   return (
-    <div>
-      <div className='signdiv'>
-  <h3 className='signh3'>SignUp</h3>
+    <div className='modal-overlay'>
+      <div  className="modal-content">
+      <button className="close-button" onClick={onClose}>X</button>
+  <h1>SignUp</h1>
   <br /><br />
-  <input type="text" onChange={(e) => setUname(e.target.value)} placeholder="Username" className='signuser' />
+  <input type="text" className='inputs-style' onChange={(e) => setUname(e.target.value)} placeholder="Username"  />
   <br /><br />
-  <input type="email" onChange={(e) => setEmail(e.target.value)} className='signpass' placeholder="Email" />
+  <input type="email" className='inputs-style' onChange={(e) => setEmail(e.target.value)}  placeholder="Email" />
   <br /><br />
-  <input type="password" onChange={(e) => setPassword(e.target.value)} className='signpass' placeholder="Password" />
+  <input type="password" className='inputs-style' onChange={(e) => setPassword(e.target.value)}  placeholder="Password" />
   <br /><br />
-  <input type="text" onChange={(e) => setAge(e.target.value)} className='signpass' placeholder="Age" />
+  <input type="text" className='inputs-style' onChange={(e) => setAge(e.target.value)}  placeholder="Age" />
   <br /><br />
-  <button type="submit" onClick={handleSubmit} className='signbut'>Sign Up</button>
+  <button type="submit" className='sign-btn' onClick={handleSubmit} >Sign Up</button>
 </div>
     </div>
   )

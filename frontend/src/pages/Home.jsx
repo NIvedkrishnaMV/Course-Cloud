@@ -21,11 +21,11 @@ const Home = () => {
  const [isModalOpen, setIsModalOpen] = useState(false);
  const openModal = () => setIsModalOpen(true);
  const closeModal = () => setIsModalOpen(false);
- 
+
 //for the signUp page
 const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 const openSignUp = () => setIsSignUpOpen(true);
-const closeSignUp = () => setIsSignUpOpen(false)
+const closeSignUp = () => setIsSignUpOpen(false);
  
  
   return (
@@ -43,7 +43,7 @@ const closeSignUp = () => setIsSignUpOpen(false)
            <Login isOpen={isModalOpen} onClose={closeModal}></Login>
 
             <button className='signBtn' onClick={openSignUp}>SignUp</button>          
-           {/* <Signup isOpen={isSignUpOpen} onClose={closeSignUp}></Signup > */}
+           <Signup isOpen={isSignUpOpen} onClose={closeSignUp}></Signup >
 
            
           </div> 
