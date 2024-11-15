@@ -2,11 +2,15 @@
     display: flex;
     flex-direction: row;
   }
-  
+  .Lan-left{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
   .Lan-navbar {
-    background-color:inherit;
+    background-color:#444;
     height: 10%;
-    width: 70%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
   }
