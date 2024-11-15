@@ -1,32 +1,41 @@
-  /* Card.css */
-  .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-title {
-    font-size: 1.5em;
-    margin-bottom: 8px;
-  }
-  
-  .card-description {
-    font-size: 1em;
-    margin-bottom: 16px;
-  }
-  
-  .card-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 16px;
-    cursor: pointer;
-  }
-  
-  .card-button:hover {
-    background-color: #0056b3;
-  }
+/* Card.css */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 1px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.card-description {
+  font-size: 1em;
+  margin-bottom: 16px;
+}
+
+.card-button {
+  background-color: #4599f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.card-button:hover {
+  background-color: #164f8b;
+  transition: 0.2s;
+}
+
+/* New styles for the card container */
+.Lan-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the min-width as needed */
+  gap: 16px; /* Space between cards */
+  padding: 16px; /* Optional padding around the grid */
+}

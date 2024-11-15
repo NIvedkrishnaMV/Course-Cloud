@@ -17,7 +17,7 @@ function LandingPage() {
   const [pdf, setPdf] = useState(null);
   const navigate = useNavigate();
  
-  // this for searchbar
+  // this for searchBar
   const [searchText, setSearchText] = useState('');
   const handleSearch = () =>{
     console.log('clicked');
@@ -45,7 +45,7 @@ function LandingPage() {
     <div className="Lan-container">
       <div className="Lan-left">
       <nav className="Lan-navbar">
-        {/* searchbar */}
+        {/* searchBar */}
         <div className="search-bar">
           <input
             type="text"
@@ -64,21 +64,21 @@ function LandingPage() {
         
         {/* buttons */}
         <ul className="Lan-nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><button>Home</button></li>
+          <li><button>About</button></li>
+          <li><button>Contact</button></li>
         </ul>
       </nav>
-      <br />
+      
       <div className="Lan-cards-container">
-        {allPdf && allPdf.map((pdf, index) => (
-          <div className="card" key={index}>
-            <h2 className="card-title">{pdf.title}</h2>
-            <p className="card-description">{pdf.description}</p>
-            <button className="card-button" onClick={() => handleShowPdf(pdf)}>Show PDF</button>
-          </div>
-        ))}
-      </div>
+  {allPdf && allPdf.map((pdf, index) => (
+    <div className="card" key={index}>
+      <h2 className="card-title">{pdf.title}</h2>
+      <p className="card-description">{pdf.description}</p>
+      <button className="card-button" onClick={() => handleShowPdf(pdf)}>Show PDF</button>
+    </div>
+  ))}
+</div>
       </div>
       <div className="Lan-side-navbar">
         <div className="Lan-div1">
