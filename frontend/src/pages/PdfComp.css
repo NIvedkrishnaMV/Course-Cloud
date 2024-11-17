@@ -1,5 +1,4 @@
-.pdf-div{
-    padding: 50px;
-    background-color: rgb(255, 255, 255);
-    margin-top: 50px;
+.pdf-container{
+    width: 100%;
+    height: 100vh;
 }

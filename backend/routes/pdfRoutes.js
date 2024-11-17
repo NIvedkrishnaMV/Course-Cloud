@@ -43,5 +43,20 @@ router.get("/view",async (req,res)=>{
   }
 })
 
+router.get("/see/:id", async (req, res) => {
+  const { id } = req.params; // Get the ID from the request parameters
+  try {
+    // Find the document by ID
+    const document = await UploadModel.findById(id);
+    if (!document) {
+      return res.status(404).send({ status: "error", message: "File not found" });
+    }
+    return res.status(200).send(document);
+   
+  } catch (error) {
+    res.status(500).send({ status: "error", message: "Internal Server Error" });
+  }
+});
+
 
 module.exports = router;
