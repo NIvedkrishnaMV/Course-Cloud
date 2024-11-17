@@ -5,6 +5,7 @@ import './landingPage.css';
 import { pdfjs } from "react-pdf";
 import './Card.css';
 import { Link, useNavigate } from 'react-router-dom';
+import PdfComp from './PdfComp';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -14,8 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 function LandingPage() {
 
   const [allPdf, setAllPdf] = useState(null);
-  const [pdf, setPdf] = useState(null);
-  const navigate = useNavigate();
+  const [pdfFile, setPdfFile] = useState(null);
  
   // this for searchBar
   const [searchText, setSearchText] = useState('');
@@ -34,11 +34,10 @@ function LandingPage() {
     const result = await axios.get("http://localhost:3001/apip/view");
     setAllPdf(result.data.data);
     console.log(result.data.data);
-  }
+  };
 
-  const handleShowPdf = (pdfData) => {
-    setPdf('')
-    navigate('/pdf', { state: { pdf: pdfData } });
+  const handleShowPdf = (pdf) => {
+    setPdfFile(`http://localhost:3001/files/${pdf}`);
   };
 
   return (
@@ -71,14 +70,15 @@ function LandingPage() {
       </nav>
       
       <div className="Lan-cards-container">
-  {allPdf && allPdf.map((pdf, index) => (
-    <div className="card" key={index}>
-      <h2 className="card-title">{pdf.title}</h2>
-      <p className="card-description">{pdf.description}</p>
-      <button className="card-button" onClick={() => handleShowPdf(pdf)}>Show PDF</button>
-    </div>
-  ))}
-</div>
+      {allPdf && allPdf.map(data => (
+          <div key={data.pdf} className="card">
+            <h2 className='card-title'>{data.title}</h2>
+            <p className='card-description'>{data.description}</p>
+            <button className='card-button' onClick={() => handleShowPdf(data.pdf)}>Show PDF</button>
+          </div>
+        ))}
+      </div>
+      {pdfFile && <PdfComp pdfFile={pdfFile} />}
       </div>
       <div className="Lan-side-navbar">
         <div className="Lan-div1">
@@ -91,6 +91,7 @@ function LandingPage() {
           </Link>
         </div>
       </div>
+     
     </div>
   );
 }
