@@ -57,5 +57,10 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 65%; /* Adjust width as needed */
-  margin-bottom: 10px; /* Space between inputs */
+  margin-bottom: 4px; /* Space between inputs */
+}
+
+.gend-style{
+  margin-left: 17%;
+  
 }

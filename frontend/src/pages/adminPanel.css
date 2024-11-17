@@ -1,6 +1,8 @@
 /* AdminPanel.css */
 .admin-panel {
     max-width: 1200px;
+    height: 83vh;
+    overflow: scroll;
     margin: 40px auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -40,3 +42,22 @@
   .admin-main {
     padding: 20px;
   }
+
+  .dash-table{
+    margin: 2px;
+    padding: 2px;
+    width: 100%;
+    height: fit-content;
+}
+.dash-table-heading{
+    padding: 2px;
+
+}
+.dash-table-body{
+    padding: 2px;
+}
+
+.dash-table,.dash-table-body,.dash-table-heading,tr,th,td{
+  border: 2px solid #000000;
+  font-size: large;
+}

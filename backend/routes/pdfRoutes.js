@@ -25,8 +25,12 @@ router.post("/upload-files",upload.single("file"),async(req,res)=>{
   console.log(req.file);
   const title=req.body.title;
   const fileName= req.file.filename;
+  const author=req.body.author;
+  const university=req.body.university;
+  const course=req.body.course;
+  const sem=req.body.sem;
   try {
-    await UploadModel.create({title : title , pdf : fileName});
+    await UploadModel.create({title : title , pdf : fileName , author : author , university : university , course : course , sem : sem });
     res.send({ status:"ok"});
   } catch (error) {
     res.send({status:error});

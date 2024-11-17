@@ -33,13 +33,15 @@ router.post('/log', async (req, res) => {
 
 
  router.post("/reg", async(req,res)=>{
-  const {uname ,email, password ,age}=req.body;
+  const {uname ,email, password ,age,gender,phone}=req.body;
  try {
   const adduser=new UserModel({
     uname,
     email,
     password,
-    age
+    age,
+    gender,
+    phone
   });
   await adduser.save();
   return res.json(adduser);
@@ -49,3 +51,15 @@ router.post('/log', async (req, res) => {
  });
 
 module.exports = router;
+
+router.get('/view',async(req,res)=>{
+  try{
+    UserModel.find({}).then(data=>{
+      res.send({status:"ok" ,data :data });
+    })
+  }
+  catch{
+    res.send({status:"error" ,data :null });
+  }
+
+})

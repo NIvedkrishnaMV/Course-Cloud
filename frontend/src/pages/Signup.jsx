@@ -10,9 +10,13 @@ const Signup = ({isOpen, onClose}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
-  const [error,setError]=useState(null);
+  const [gender, setGender] = useState('');
+  const [phone, setPhone] = useState('');
   const navigate =useNavigate();
 
+  const handleGenderChange = (event) => {
+      setGender(event.target.value);
+    };
 
  const handleSubmit=async(event)=>{
   event.preventDefault();
@@ -21,10 +25,14 @@ const Signup = ({isOpen, onClose}) => {
       uname,
       email,
       password,
-      age
+      age,
+      gender,
+      phone
     });
 
-    if(uname===''||email===''||password===''||age===''){
+ 
+
+    if(uname===''||email===''||password===''||age===''||gender===''||phone===''){
       alert("You missed value");
     }
     else if(res.status ===200){
@@ -32,10 +40,10 @@ const Signup = ({isOpen, onClose}) => {
       navigate('/');
     }
     else{
-      setError(res.data)
+      alert('Login Failed')
     }
   } catch (error) {
-    setError(error.message);
+    alert('Login Error');
   }
  }
  if(!isOpen) return null;
@@ -51,8 +59,36 @@ const Signup = ({isOpen, onClose}) => {
   <br /><br />
   <input type="password" className='inputs-style' onChange={(e) => setPassword(e.target.value)}  placeholder="Password" />
   <br /><br />
+  <div className="gend-style">
+  <label>
+    Gender:
+        <input 
+          
+          type="radio" 
+          name="gender" 
+          value="male" 
+          checked={gender === 'male'} 
+          onChange={handleGenderChange} 
+        />
+        Male
+      </label>&nbsp;&nbsp;
+      <label>
+        <input 
+          type="radio" 
+          name="gender" 
+          value="female" 
+          checked={gender === 'female'} 
+          onChange={handleGenderChange} 
+        />
+        Female
+      </label>
+      </div>
+  <br /><br />
   <input type="text" className='inputs-style' onChange={(e) => setAge(e.target.value)}  placeholder="Age" />
   <br /><br />
+  <input type="text" className='inputs-style' onChange={(e) => setPhone(e.target.value)}  placeholder="Phone Number" />
+  <br /><br />
+  
   <button type="submit" className='sign-btn' onClick={handleSubmit} >Sign Up</button>
 </div>
     </div>

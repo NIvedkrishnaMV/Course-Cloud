@@ -35,6 +35,10 @@ const Upload = () => {
     const formData = new FormData();
     formData.append("title",title);
     formData.append("file",file);
+    formData.append("author",author);
+    formData.append("university",university);
+    formData.append("course",course);
+    formData.append("sem",sem);
     const result=await axios.post("http://localhost:3001/apip/upload-files",formData,{
       headers:{"Content-Type":"multipart/form-data"},
     })
