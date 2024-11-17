@@ -113,3 +113,8 @@
   .sNavbutton:hover {
     background-color: #3e8e41; /* Change the background color on hover */
   }
+ .back-button{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
