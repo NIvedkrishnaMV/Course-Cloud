@@ -49,7 +49,7 @@ const Upload = () => {
   return (
     <div className="upload-container">
       <div className="upload-navbar">
-      <nav className="Lan-navbar">
+      <nav className="upload-navbar">
           
         
           {/* buttons */}
