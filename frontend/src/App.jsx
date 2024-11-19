@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import Upload from './pages/Upload';
 import AdminPanel from './pages/AdminPanel';
 import PdfComp from './pages/PdfComp';
+import TeacherSign from './pages/TeacherSign';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/upload" element={<Upload />} />
       <Route path='/admin' element={<AdminPanel/>} />
       <Route path='/pdf' element={<PdfComp/>} />    
+      <Route path='/logtcr' element={<TeacherSign/>} />    
     </Routes>
   )
 }
