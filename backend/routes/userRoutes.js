@@ -50,7 +50,7 @@ router.post('/log', async (req, res) => {
  }
  });
 
-module.exports = router;
+
 
 router.get('/view',async(req,res)=>{
   try{
@@ -63,3 +63,6 @@ router.get('/view',async(req,res)=>{
   }
 
 })
+
+
+module.exports = router;
