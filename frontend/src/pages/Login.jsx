@@ -81,7 +81,8 @@ const Login = ({isOpen, onClose}) => {
             required
         /><br />
           <br />
-        <button className="login-btn" onClick={handleSubmit} type="submit">Log In</button>
+        <button className="login-btn" onClick={handleSubmit} type="submit">Log In</button><br />
+        <div className="newuser"><h4>New User?<a href="/">Signup</a></h4></div>
     </form>
 </div>
 </div>
