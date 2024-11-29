@@ -7,12 +7,16 @@ import  {Link} from 'react-router-dom';
 const Dashboard = () => {
   const [pdf, setPdf] = useState(null);
 
-  const handleDelete=(id)=>{
-    axios.delete(`http://localhost:3001/apip/del/${id}`).then((response) =>{
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/apip/del/${id}`);
       console.log("deleted");
-    })
+      // Refetch the data to update the state
+      getPdf();
+    } catch (error) {
+      console.error("Error deleting the item:", error);
+    }
   }
-  
 
   useEffect(() => {
     getPdf();
