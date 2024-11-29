@@ -35,4 +35,21 @@ router.get('/view',async(req,res)=>{
   
   })
 
+
+  router.delete('/del/:id',async(req,res)=>{
+    const { id } = req.params;
+    try {
+      const document = await TeacherModel.findById(id);
+      if (!document) {
+        return res.status(404).send({ status: "error", message: "File not found" });
+      }
+      await TeacherModel.findByIdAndDelete(id);
+      return  res.status(200).send({ status: "ok", message: "File deleted successfully" });
+  
+    }
+    catch(error){
+      res.status(404).send({status:error});
+    }
+  })
+
   module.exports = router;

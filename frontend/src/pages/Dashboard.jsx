@@ -11,7 +11,6 @@ const Dashboard = () => {
     try {
       await axios.delete(`http://localhost:3001/apip/del/${id}`);
       console.log("deleted");
-      // Refetch the data to update the state
       getPdf();
     } catch (error) {
       console.error("Error deleting the item:", error);

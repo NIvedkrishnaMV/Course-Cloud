@@ -5,6 +5,16 @@ import { Link } from 'react-router-dom';
 const User = () => {
   const [user, setUser] = useState(null);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/apiu/del/${id}`);
+      console.log("deleted");
+      getUser();
+    } catch (error) {
+      console.error("Error deleting the item:", error);
+    }
+  }
+
   useEffect(() => {
     getUser();
   }, []);
@@ -41,7 +51,7 @@ const User = () => {
               <td>{data.gender}</td>
               <td>
                 <Link>
-                  <button>
+                  <button onClick={(e)=>handleDelete(data._id)}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#1D1B20"/>
                     </svg>

@@ -64,5 +64,42 @@ router.get('/view',async(req,res)=>{
 
 })
 
+router.delete('/del/:id',async(req,res)=>{
+  const { id } = req.params;
+  try {
+    const document = await UserModel.findById(id);
+    if (!document) {
+      return res.status(404).send({ status: "error", message: "File not found" });
+    }
+    await UserModel.findByIdAndDelete(id);
+    return  res.status(200).send({ status: "ok", message: "File deleted successfully" });
+
+  }
+  catch(error){
+    res.status(404).send({status:error});
+  }
+})
+
+router.put('/edit/:id', async (req, res) => {
+  const { id } = req.params;
+  const { uname, email, password, age, gender, phone } = req.body;
+
+  try {
+    const updatedUser  = await User.findByIdAndUpdate(
+      id,
+      { uname, email, password, age, gender, phone },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser ) {
+      return res.status(404).json({ message: 'User  not found' });
+    }
+
+    res.status(200).json(updatedUser );
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user', error });
+  }
+});
+
 
 module.exports = router;
