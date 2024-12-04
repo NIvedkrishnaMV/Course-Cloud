@@ -1,14 +1,10 @@
 .Lan-container {
     display: flex;
-    flex-direction: row;
-  }
-  .Lan-left{
-    display: flex;
     flex-direction: column;
     width: 100%;
-    max-height:800px;
-    overflow-y: auto;
+    height: 100vh;
   }
+
   .Lan-navbar {
     background-color:#333;
     height: 10%;
@@ -42,6 +38,12 @@
     cursor: pointer;
   }
   
+  .Lan-body{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
   .Lan-nav-links {
     list-style: none;
     margin: 0;
@@ -50,7 +52,17 @@
     align-items: center;
   }
 
-  .Lan-nav-links button{
+
+  .profileBtn{
+
+    background-color: #4d4c4c;
+    border-radius: 90px;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+  }
+
+  /* .Lan-nav-links button{
     background-color: #4d4c4c;
     border-radius: 5px;
     cursor: pointer;
@@ -60,11 +72,25 @@
     background-color: azure;
     color: black;
     transition: 0.2s;
+   } */
+
+
+
+   .menu-btn{
+    background-color: #4d4c4c;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+   }
+   .menu-btn :hover{
+    background-color: #7a7a7a;
+    color: black;
+    transition: 0.2s;
    }
   
   
   .Lan-nav-links li {
-    margin-right: 20px;
+    margin-right: 10px;
   }
   
   .Lan-nav-links a {
@@ -72,34 +98,13 @@
     text-decoration: none;
   }
   
-  .Lan-side-navbar {
-    background-color: #f0f0f0;
-    width: 25%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+
+
   
-  .Lan-div1, .Lan-div2 {
-    background-color: #fff;
-    padding: 20px;
-    margin: 20px;
-    border: 1px solid #ddd;
-  }
-  
-  .Lan-div1 {
-    flex: 1;
-  }
-  
-  .Lan-div2 {
-    display: flex;
-    justify-content: end;
-  }
 
   .sNavbutton {
     height: fit-content;
-    width: 100%; /* Set the width of each button to 100% of the container */
+    width: 90%; /* Set the width of each button to 100% of the container */
     flex: 1; /* Allow the buttons to grow and shrink */
     margin: 10px; /* Add some margin around the buttons */
     padding: 20px; /* Add some padding to the buttons */
@@ -117,4 +122,23 @@
    display: flex;
    align-items: center;
    justify-content: center;
+ }
+ .menuList{
+  list-style: none;
+  margin: 10px;
+  width: 200px;
+  border: solid rgb(187, 187, 187) 1px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+ }
+ .div2{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: scroll;
+  border: solid 1px #bbbbbb;
+  width: 100%;
+  margin: 10px;
+  height: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
  }
