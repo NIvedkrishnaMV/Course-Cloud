@@ -8,6 +8,7 @@ import Upload from './pages/Upload';
 import AdminPanel from './pages/AdminPanel';
 import PdfComp from './pages/PdfComp';
 import TeacherSign from './pages/TeacherSign';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Route path='/login' element={<Login />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/landing' element={<LandingPage />}/>
+      <Route path="/profile" element={<Profile />} />
       <Route path="/upload" element={<Upload />} />
       <Route path='/admin' element={<AdminPanel/>} />
       <Route path='/pdf' element={<PdfComp/>} />    

@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const UserModel=require('../model/UserModel')
+const CuserModel=require('../model/CurrentUser');
 
 
 router.use(express.json());
@@ -20,6 +21,15 @@ router.post('/log', async (req, res) => {
         return res.status(404).json({ error: "Email not registered" });
       }
       else if (await password  === user.password) {
+        const adduser=new CuserModel({
+          uname:user.uname,
+          email:user.email,
+          password:user.password,
+          age:user.age,
+          gender:user.gender,
+          phone:user.phone
+        });
+        await adduser.save();
         return res.status(200).json({ isAdmin:false });
       } else {
         return res.status(401).json({ error: "Incorrect password" });
