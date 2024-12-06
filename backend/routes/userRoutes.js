@@ -73,6 +73,26 @@ router.get('/view',async(req,res)=>{
   }
 
 })
+router.get('/proView',async(req,res)=>{
+  try{
+    CuserModel.find({}).then(data=>{
+      res.send({status:"ok" ,data :data });
+    })
+  }
+  catch{
+    res.send({status:"error" ,data :null });
+  }
+
+})
+
+router.delete('/logout', async (req, res) => {
+  try {
+      await CuserModel.deleteMany({}); // This will delete all entries
+      res.status(200).send({ message: 'Logged Out' });
+  } catch (error) {
+      res.status(500).send({ message: 'Error deleting entries.', error });
+  }
+});
 
 router.delete('/del/:id',async(req,res)=>{
   const { id } = req.params;

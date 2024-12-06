@@ -2,14 +2,16 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    height: 97vh;
   }
 
   .Lan-navbar {
-    background-color:#333;
+    background-color:#1a8cb9;
     height: 10%;
     width: 100%;
     display: flex;
+    border: #013057 1px solid;
+    box-shadow: #333 5px 2px 5px;
     justify-content: space-between;
  }
   
@@ -41,7 +43,8 @@
   .Lan-body{
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 90%;
+    overflow: hidden;
   }
 
   .Lan-nav-links {
@@ -54,12 +57,17 @@
 
 
   .profileBtn{
-
-    background-color: #4d4c4c;
+    background-color: #1a8cb9;
     border-radius: 90px;
     cursor: pointer;
     color: #fff;
+    border: none;
     padding: 0;
+  }
+
+  .profileBtn:hover{
+    transform: translateX(2px) translateY(2px) scale(1.1);
+    background-color: #117fd8;
   }
 
   /* .Lan-nav-links button{
@@ -77,14 +85,15 @@
 
 
    .menu-btn{
-    background-color: #4d4c4c;
+    background-color:#1a8cb9;
     border-radius: 5px;
+    border: none;
     color: #fff;
     cursor: pointer;
    }
    .menu-btn :hover{
-    background-color: #7a7a7a;
     color: black;
+    transform: translateX(2px) translateY(2px) scale(1.1);
     transition: 0.2s;
    }
   
@@ -106,17 +115,19 @@
     height: fit-content;
     width: 90%; /* Set the width of each button to 100% of the container */
     flex: 1; /* Allow the buttons to grow and shrink */
-    margin: 10px; /* Add some margin around the buttons */
-    padding: 20px; /* Add some padding to the buttons */
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 5px; /* Add some margin around the buttons */
+    padding: 10px; /* Add some padding to the buttons */
     border: none; /* Remove the default border */
-    border-radius: 5px; /* Add a rounded corner effect */
-    background-color: #4CAF50; /* Set the background color */
+    background-color: #117fd8; /* Set the background color */
     color: #fff; /* Set the text color */
     cursor: pointer; /* Change the cursor to a pointer */
   }
   
   .sNavbutton:hover {
-    background-color: #3e8e41; /* Change the background color on hover */
+    transform: translateY(2px) translateX(2px);
+    background-color: #025091; /* Change the background color on hover */
   }
  .back-button{
    display: flex;
@@ -141,4 +152,36 @@
   margin: 10px;
   height: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ .lph{
+  display: flex;
+  flex-direction: column;
+  z-index: -1;
+  opacity: 0.6;
+  position: absolute;
+  transform: translateY(2px) translateX(2px);
+  overflow: hidden;
+  height: 97vh;
+  width: 100%;
+ }
+
+ .Lan-homebtn{
+    height: fit-content;
+    width: 90%; /* Set the width of each button to 100% of the container */
+    flex: 1; /* Allow the buttons to grow and shrink */
+    font-size: large;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 5px; /* Add some margin around the buttons */
+    padding: 7px; /* Add some padding to the buttons */
+    border: none; /* Remove the default border */
+    background-color: #ffffff; /* Set the background color */
+    color: #000000; /* Set the text color */
+    cursor: pointer;
+ }
+
+ .Lan-homebtn:hover{
+    transform: translateY(2px) translateX(2px);
+    
  }
