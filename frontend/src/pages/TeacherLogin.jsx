@@ -1,11 +1,10 @@
-// import { AppBar, Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import './style.css';
 import React, { useState } from 'react';
 import axios from 'axios'
 import './modal.css';
 
-const Login = ({isOpen, onClose}) => {
+const TeacherLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate =useNavigate();
@@ -16,16 +15,10 @@ const Login = ({isOpen, onClose}) => {
       if (email === '' || password === '') {
         alert("You missed a value");
       } else {
-        const response = await axios.post('http://localhost:3001/apiu/log', {email,password});
+        const response = await axios.post('http://localhost:3001/apit/log', {email,password});
         if (response.status === 200) {
-          if(response.data.isAdmin){
-            alert("Welcome Admin");
-            navigate('/admin');
-          }
-          else{
             alert("Welcome User");
-            navigate('/ulanding');
-          }
+            navigate('/landing');
         }
         else if (response.status === 404) {
           const errorMessage = response.data;
@@ -55,14 +48,11 @@ const Login = ({isOpen, onClose}) => {
     }    
   }
   
-  if(!isOpen) return null;
-  
 
   return (
 <div className="modal-overlay">
 <div className="modal-content">
-    <button className="close-button" onClick={onClose}>X</button>
-    <h1>Login</h1>
+    <h1>Faculty Login</h1>
     <form>
         <input
             className='email-input'
@@ -82,12 +72,11 @@ const Login = ({isOpen, onClose}) => {
         /><br />
           <br />
         <button className="login-btn" onClick={handleSubmit} type="submit">Log In</button><br />
-        <div className="newuser"><h4>New User?<a href="/">Signup</a></h4></div>
-        <div className="newuser"><h4>Faculty login<a href="/tcrlog">login as faculty</a></h4></div>
+        <div className="newuser"><h4>New User?<a href="/logtcr">Signup</a></h4></div>
     </form>
 </div>
 </div>
   )
 }
 
-export default Login
+export default TeacherLogin

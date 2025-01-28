@@ -9,6 +9,10 @@ import AdminPanel from './pages/AdminPanel';
 import PdfComp from './pages/PdfComp';
 import TeacherSign from './pages/TeacherSign';
 import Profile from './pages/Profile';
+import TeacherLogin from './pages/TeacherLogin';
+import ULandingPage from './pages/ULandingPage';
+import Uni from './pages/Uni';
+import Cor from './pages/Cor';
 
 function App() {
 
@@ -18,11 +22,15 @@ function App() {
       <Route path='/login' element={<Login />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/landing' element={<LandingPage />}/>
+      <Route path='/ulanding' element={<ULandingPage />}/>
       <Route path="/profile" element={<Profile />} />
       <Route path="/upload" element={<Upload />} />
       <Route path='/admin' element={<AdminPanel/>} />
       <Route path='/pdf' element={<PdfComp/>} />    
-      <Route path='/logtcr' element={<TeacherSign/>} />    
+      <Route path='/logtcr' element={<TeacherSign/>} />  
+      <Route path='/tcrlog' element={<TeacherLogin/>} />
+      <Route path='/uni' element={<Uni/>} />
+      <Route path='/cor' element={<Cor/>} />
     </Routes>
   )
 }

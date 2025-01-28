@@ -2,9 +2,15 @@ import React, { useEffect } from 'react';
 import "./profile.css";
 import axios from 'axios';
 import LandingPage from './LandingPage';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [profiles, setProfiles] = React.useState([]); 
+
+  const goHome=()=>{
+    navigate(-1)
+  }
 
 
   useEffect(() => {
@@ -30,7 +36,7 @@ const Profile = () => {
       <button disabled style={{backgroundColor: 'inherit',border:"none",flexGrow:1}}></button>
           <ul className="Lan-nav-links">
 
-            <li><button className='Lan-homebtn'>Home</button></li>
+            <li><button className='Lan-homebtn' onClick={()=>goHome()}>Home</button></li>
             {/* logout button */}
             <li><button className='profileBtn' onClick={()=>handleLogOut()}>
             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="34px" fill="#fff"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
