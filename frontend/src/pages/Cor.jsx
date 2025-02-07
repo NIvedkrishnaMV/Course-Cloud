@@ -9,7 +9,11 @@ const Cor = () => {
     const [menuToggle, setMenuToggle] = useState(false);
     const [isChildVisibleView, setIsChildVisibleView] = useState(false);
     const [isChildVisibleAdd, setIsChildVisibleAdd] = useState(false); // New state for visibility
+    const [courseName, setCourseName] = useState('');
+    const [years, setYears] = useState('');
+    const [courses, setCourses] = useState([]);
 
+        
     const showMenu = () => {
         setMenuToggle(prevState => !prevState);
     }
@@ -28,14 +32,36 @@ const Cor = () => {
         navigate('/landing');
     }
 
-    const handleView = () => {
+    const handleView = async() => {
         setIsChildVisibleView(prevState => !prevState);
         setIsChildVisibleAdd(false); // Show child-container2
+
+        const result = await axios.get("http://localhost:3001/apit/cors-view");
+        console.log(result.data.data)
+        setCourses(result.data.data);
     }
 
     const handleAdd = () => {
         setIsChildVisibleAdd(prevState => !prevState);
         setIsChildVisibleView(false); // Show child-container2
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        try {
+            const response = await axios.post('http://localhost:3001/apit/add-course', {
+                courseName,
+                years
+            });
+            alert('Course added successfully!'); // Notify user of success
+            // Optionally, you can reset the form or navigate to another page
+            setCourseName('');
+            setYears('');
+        } catch (error) {
+            console.error('There was an error adding the course!', error);
+            alert('Failed to add course. Please try again.'); // Notify user of error
+        }
     }
 
     return (
@@ -76,8 +102,49 @@ const Cor = () => {
                             ADD COURSES ? click this button <br />
                             <button className="btn2" onClick={handleAdd}>Add</button><br />
                         </div>
-                        {isChildVisibleView && <div className="child-container2">View</div>} 
-                        {isChildVisibleAdd && <div className="child-container2">Add</div>}
+                        {isChildVisibleView && (
+                            <div className="child-container2">
+                                <h1>VIEW COURSES</h1>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Course Name</th>
+                                            <th>years</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {courses.map((cor, index) => (
+                                            <tr key={index}>
+                                                <td>{cor.courseName}</td>
+                                                <td>{cor.years}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        {isChildVisibleAdd && (
+                            <div className="child-container2">
+                                <h1>ADD COURSES</h1>
+                                <form onSubmit={handleSubmit}>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Course Name" 
+                                        value={courseName} 
+                                        onChange={(e) => setCourseName(e.target.value)} 
+                                        required 
+                                    /> <br /> <br />
+                                    <input 
+                                        type="text" 
+                                        placeholder="years" 
+                                        value={years} 
+                                        onChange={(e) => setYears(e.target.value)} 
+                                        required 
+                                    /> <br /> <br />
+                                    <button type="submit">Add Course</button>
+                                </form>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

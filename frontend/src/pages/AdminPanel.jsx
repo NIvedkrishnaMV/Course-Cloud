@@ -44,13 +44,12 @@ const AdminPanel = () => {
           <li><a href="#" onClick={()=>handleTable(3)}>University</a></li>
           <li><a href="#" onClick={()=>handleTable(4)}>Teachers</a></li>
           <li><a href="#" onClick={()=>handleTable(5)}>Course</a></li>
-          <li><a href="#" onClick={()=>handleTable(6)}>Settings</a></li>
         </ul>
       </nav>
       <main className="admin-main">
         <span>
           {
-            index === 'dashboard' ? <Dashboard /> : index === 'user' ? <User /> : index==='university' ? <University/> : index==='teachers' ? <Teachers/> : index==='course' ? <Course/> : index === "settings" ? <Settings /> : " "
+            index === 'dashboard' ? <Dashboard /> : index === 'user' ? <User /> : index==='university' ? <University/> : index==='teachers' ? <Teachers/> : index==='course' ? <Course/>  : " "
           }
         </span>
       </main>
