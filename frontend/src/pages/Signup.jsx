@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './Sign.css';
 
 
-const Signup = ({isOpen, onClose}) => {
+const Signup = () => {
    
   const [uname, setUname] = useState('');
   const [email, setEmail] = useState('');
@@ -46,11 +46,10 @@ const Signup = ({isOpen, onClose}) => {
     alert('Login Error');
   }
  }
- if(!isOpen) return null;
   return (
     <div className='modal-overlay'>
       <div  className="modal-content">
-      <button className="close-button" onClick={onClose}>X</button>
+      <button className="close-button">X</button>
   <h1>SignUp</h1>
   <br /><br />
   <input type="text" className='inputs-style' onChange={(e) => setUname(e.target.value)} placeholder="Username"  />

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './AdminPanel.css';
 import Dashboard from './Dashboard';
 import User from './User';
-import Settings from './Settings';
 import University from './University';
 import Course from './Course';
 import Teachers from './Teachers';

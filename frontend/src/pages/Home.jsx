@@ -2,31 +2,245 @@ import React from 'react';
 import './style.css';
 import logo from './logo.jpg'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
+import { useNavigate } from 'react-router-dom';
+import './TeacherSign.css';
+import axios from 'axios'
+import './modal.css';
+
 
 const Home = () => {
   
   //this it for the searchBar
   const [searchText, setSearchText] = useState('');
+
+  
   const handleSearch = () =>{
     console.log('clicked');
   }
   const handleClear = () => {
     setSearchText('');
   };
+  // User login page
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate =useNavigate();
+  
+  const handleULSubmit =async(event)=>{
+    event.preventDefault();
+    try {
+      if (email === '' || password === '') {
+        alert("You missed a value");
+      } else {
+        const response = await axios.post('http://localhost:3001/apiu/log', {email,password});
+        if (response.status === 200) {
+          if(response.data.isAdmin){
+            alert("Welcome Admin");
+            navigate('/admin');
+          }
+          else{
+            alert("Welcome User");
+            navigate('/ulanding');
+          }
+        }
+        else if (response.status === 404) {
+          const errorMessage = response.data;
+          if (errorMessage === 'Email not registered') {
+            alert('Email not registered');
+          }
+          else if(errorMessage === 'Incorrect password'){
+            alert('Incorrect password');
+          } else {
+            alert("Error logging in");
+          }
+        } else {
+          alert("Error logging in");
+        }
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert("Error logging in: " + error.response.data);
+        } else {
+          alert("Couldn't log in");
+        }
+      } else {
+        console.error(error);
+        alert("An unexpected error occurred");
+      }
+    }    
+  }
 
- //overlay menu shows the loginPage
- const [isModalOpen, setIsModalOpen] = useState(false);
- const openModal = () => setIsModalOpen(true);
- const closeModal = () => setIsModalOpen(false);
+  // user signUp page
 
-//for the signUp page
-const [isSignUpOpen, setIsSignUpOpen] = useState(false);
-const openSignUp = () => setIsSignUpOpen(true);
-const closeSignUp = () => setIsSignUpOpen(false);
+  const [uname, setUname] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const handleGenderChange = (event) => {
+      setGender(event.target.value);
+    };
+
+ const handleUSSubmit=async(event)=>{
+  event.preventDefault();
+  try {
+    const res= await axios.post("http://localhost:3001/apiu/reg",{
+      uname,
+      email,
+      password,
+      age,
+      gender,
+      phone
+    });
+
  
+
+    if(uname===''||email===''||password===''||age===''||gender===''||phone===''){
+      alert("You missed value");
+    }
+    else if(res.status ===200){
+      alert("registered successfully");
+      navigate('/');
+    }
+    else{
+      alert('Login Failed')
+    }
+  } catch (error) {
+    alert('Login Error');
+  }
+ }
+//  faculty login page
+  
+  const handleFLSubmit =async(event)=>{
+    event.preventDefault();
+    try {
+      if (email === '' || password === '') {
+        alert("You missed a value");
+      } else {
+        const response = await axios.post('http://localhost:3001/apit/log', {email,password});
+        if (response.status === 200) {
+            alert("Welcome User");
+            navigate('/landing');
+        }
+        else if (response.status === 404) {
+          const errorMessage = response.data;
+          if (errorMessage === 'Email not registered') {
+            alert('Email not registered');
+          }
+          else if(errorMessage === 'Incorrect password'){
+            alert('Incorrect password');
+          } else {
+            alert("Error logging in");
+          }
+        } else {
+          alert("Error logging in");
+        }
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert("Error logging in: " + error.response.data);
+        } else {
+          alert("Couldn't log in");
+        }
+      } else {
+        console.error(error);
+        alert("An unexpected error occurred");
+      }
+    }    
+  }
+  // faculty sign in
+  const [tname, setTname] = useState('');
+  const [university, setUniversity] = useState('');
+  const [course, setCourse] = useState('');
+
+  const handleFSSubmit=async(event)=>{
+    event.preventDefault();
+    try {
+      const res= await axios.post("http://localhost:3001/apit/reg",{
+        tname,
+        email,
+        password,
+        age,
+        university,
+        course
+      });
+      if(tname===''||email===''||password===''||age===''||university===''||course===''){
+        alert("You missed value");
+      }
+      else if(res.status ===200){
+        alert("registered successfully");
+        navigate('/');
+      }
+      else{
+        alert('Login Failed')
+      }
+    } catch (error) {
+      alert('Login Error');
+    }
+   }
+
+
+
+
+ const [isLoginOpen, setIsLoginOpen] = useState(false);
+ const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+ 
+ const [userLog , setUserlog]=useState(false);
+ const [facultyLog , setFacultylog]=useState(false);
+ const [adminLog , setAdminlog]=useState(false);
+ const [userSign , setUsersign]=useState(false);
+ const [facultySign , setFacultysign]=useState(false);
+
+ const openLogin =()=>{
+  setIsLoginOpen(prevstate => !prevstate);
+  setIsSignUpOpen(false);
+ }
+ const openSignUp =()=>{
+  setIsSignUpOpen(prevstate => !prevstate);
+  setIsLoginOpen(false);
+ }
+ const closeAll=()=>{
+  setIsLoginOpen(false);
+  setIsSignUpOpen(false);
+ }
+
+const handleUlog =()=>{
+  setUserlog(true);
+  setUsersign(false);
+}
+
+
+const handleFlog =()=>{
+ setFacultylog(true);
+ setFacultysign(false);
+}
+
+
+const handleAlog =()=>{
+  setAdminlog(true);
+}
+
+
+const handleUsign =()=>{
+  setUsersign(true);
+  setUserlog(false);
+}
+
+
+const handleFsign =()=>{
+  setFacultysign(true);
+  setFacultylog(false);
+} 
+
+const handleClose=()=>{
+  setUserlog(false);
+  setFacultylog(false);
+  setAdminlog(false);
+  setUsersign(false);
+  setFacultysign(false);
+}
+
  
   return (
     <div className="home">
@@ -39,16 +253,227 @@ const closeSignUp = () => setIsSignUpOpen(false);
       <div className="home-items">
         <div className="navbar">
           <div className="buttons">
-           <button onClick={openModal} className="logBtn">Login</button>
-           <Login isOpen={isModalOpen} onClose={closeModal}></Login>
-
-            <button className='signBtn' onClick={openSignUp}>SignUp</button>          
-           <Signup isOpen={isSignUpOpen} onClose={closeSignUp}></Signup >
-
+            <div className="logBtn"> <button onClick={openLogin}>Login</button>
+                <div className={`btnMenu ${isLoginOpen? 'show' : ''}`} >
+                  <ul >
+                    <li><button className="logbtns" onClick={handleUlog}>User</button></li>
+                    <li><button className="logbtns" onClick={handleFlog}>Faculty</button></li>
+                    <li><button className="logbtns" onClick={handleAlog}>Admin</button></li>
+                  </ul>
+                </div>
+            </div>
+            <div className="logBtn"> <button onClick={openSignUp} >Signup</button>
+                <div className={`btnMenu ${isSignUpOpen? 'show' : ''}`} >                
+                  <ul>
+                    <li><button className="logbtns" onClick={handleUsign}>User</button></li>
+                    <li><button className="logbtns" onClick={handleFsign}>Faculty</button></li>
+                  </ul>              
+                </div>
+            </div>          
+            
            
           </div> 
         </div>
         
+
+        {/* User login page */}
+        { userLog &&(
+          <div className="modal-overlay">
+          <div className="modal-content">
+              <button className="close-button" onClick={handleClose}>X</button>
+              <h1>Login</h1>
+              <form>
+                  <input
+                      className='email-input'
+                      type="text"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                  /><br /><br />
+                  <input
+                      className='password-input'
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                  /><br />
+                    <br />
+                  <button className="login-btn" onClick={handleULSubmit} type="submit">Log In</button><br />
+                  <div className="newuser"><h4>New User? <a onClick={handleUsign}>Signup</a></h4></div>
+              </form>
+          </div>
+          </div>
+        )}
+
+        {/* User signUp page */}
+       {userSign &&(
+         <div className='modal-overlay'>
+          <div  className="modal-content">
+            <button className="close-button" onClick={handleClose}>X</button>
+              <h1>SignUp</h1>
+              <br /><br />
+              <input type="text" className='inputs-style' onChange={(e) => setUname(e.target.value)} placeholder="Username"  />
+              <br /><br />
+              <input type="email" className='inputs-style' onChange={(e) => setEmail(e.target.value)}  placeholder="Email" />
+              <br /><br />
+              <input type="password" className='inputs-style' onChange={(e) => setPassword(e.target.value)}  placeholder="Password" />
+              <br /><br />
+              <div className="gend-style">
+              <label>
+              Gender:
+                <input 
+                  type="radio" 
+                  name="gender" 
+                  value="male" 
+                  checked={gender === 'male'} 
+                  onChange={handleGenderChange} 
+                />
+                Male
+              </label>&nbsp;&nbsp;
+              <label>
+                <input 
+                  type="radio" 
+                  name="gender" 
+                  value="female" 
+                  checked={gender === 'female'} 
+                  onChange={handleGenderChange} 
+                />
+                Female
+              </label>
+              </div>
+              <br /><br />
+              <input type="text" className='inputs-style' onChange={(e) => setAge(e.target.value)}  placeholder="Age" />
+              <br /><br />
+              <input type="text" className='inputs-style' onChange={(e) => setPhone(e.target.value)}  placeholder="Phone Number" />
+              <br /><br />
+              
+              <button type="submit" className='sign-btn' onClick={handleUSSubmit} >Sign Up</button>
+              <p className="login-prompt">
+                Already a user? <a onClick={handleUlog} >Login</a>
+               </p>
+            </div>
+          </div>
+        )}
+
+        {/* Admin login page */}
+        {adminLog && (
+          <div className="modal-overlay">
+          <div className="modal-content">
+              <button className="close-button" onClick={handleClose}>X</button>
+              <h1>Admin Login</h1>
+              <form>
+                  <input
+                      className='email-input'
+                      type="text"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                  /><br /><br />
+                  <input
+                      className='password-input'
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                  /><br />
+                    <br />
+                  <button className="login-btn" onClick={handleULSubmit} type="submit">Log In</button><br />
+              </form>
+          </div>
+          </div>
+        )}
+
+        {/* faculty login page */}
+        {facultyLog && (
+          <div className="modal-overlay">
+          <div className="modal-content">
+             <button className="close-button" onClick={handleClose}>X</button>
+              <h1>Faculty Login</h1>
+              <form>
+                  <input
+                      className='email-input'
+                      type="text"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                  /><br /><br />
+                  <input
+                      className='password-input'
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                  /><br />
+                    <br />
+                  <button className="login-btn" onClick={handleFLSubmit} type="submit">Log In</button><br />
+                  <div className="newuser"><h4>New User?<a onClick={handleFsign}>Signup</a></h4></div>
+              </form>
+          </div>
+          </div>
+        )}
+        {/* faculty Sign in */}
+        {facultySign && (
+          <div className="modal-overlay">
+          <div className="form">
+            <div className="title">
+            <h2 >Create an Account</h2>
+            <button className='close' onClick={handleClose}>X</button>
+            </div>
+            <div className="input-group">
+              <label htmlFor="username" className="label">Username</label>
+              <input type="text" id="username" onChange={(e) => setTname(e.target.value)} name="username" required className="input" />
+            </div>
+    
+            <div className="input-group">
+              <label htmlFor="email" className="label">Email</label>
+              <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} name="email" required className="input" />
+            </div>
+    
+            <div className="input-group">
+              <label htmlFor="password" className="label">Password</label>
+              <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} name="password" required className="input" />
+            </div>
+    
+            <div className="input-group">
+              <label htmlFor="password" className="label">Age</label>
+              <input type="text" id="age" onChange={(e) => setAge(e.target.value)} name="age" required className="input" />
+            </div>
+    
+            <div className="input-group">
+              <label htmlFor="university" className="label">University</label>
+              <select id="university" onChange={(e) => setUniversity(e.target.value)} name="university" required className="input">
+                <option value="">Select University</option>
+                <option value="university1">University 1</option>
+                <option value="university2">University 2</option>
+                <option value="university3">University 3</option>
+              </select>
+            </div>
+    
+            <div className="input-group">
+              <label htmlFor="course" className="label">Course</label>
+              <select id="course" onChange={(e) => setCourse(e.target.value)} name="course" required className="input">
+                <option value="">Select Course</option>
+                <option value="course1">Course 1</option>
+                <option value="course2">Course 2</option>
+                <option value="course3">Course 3</option>
+              </select>
+            </div>
+    
+            <button type="submit" onClick={handleFSSubmit} className="button">Sign Up</button>
+    
+            <p className="login-prompt">
+              Already a user? <a onClick={handleFlog} className="login-link">Login</a>
+            </p>
+          </div>
+        </div>
+        )}
+
         <h1 className="heading1">Free study notes, summaries &<br />&nbsp;&nbsp;&nbsp; answers for your studies</h1>
         <div className="contents">
           
