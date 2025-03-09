@@ -45,7 +45,18 @@ router.get("/view",async (req,res)=>{
   } catch (error) {
     
   }
-})
+});
+
+router.get('/w-view', async (req, res) => {
+  try {
+    const user = req.query.user;
+    const data = await UploadModel.find({ author: user });
+    res.json({ status: "ok", data: data });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+});
+
 
 router.get("/see/:id", async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters
@@ -76,7 +87,51 @@ router.delete('/del/:id',async(req,res)=>{
   catch(error){
     res.status(404).send({status:error});
   }
-})
+});
+router.put('/update-file/:id', async (req, res) => {
+  const { id } = req.params; // File ID from URL parameters
+  const { title, author, university, course, sem } = req.body; // File details from form data
 
+  try {
+    // Find the file by ID
+    const existingFile = await UploadModel.findById(id);
+    if (!existingFile) {
+      return res.status(404).json({ status: 'error', message: 'File not found' });
+    }
+
+    // Update only the fields provided in the request body
+    existingFile.title = title || existingFile.title;
+    existingFile.author = author || existingFile.author;
+    existingFile.university = university || existingFile.university;
+    existingFile.course = course || existingFile.course;
+    existingFile.sem = sem || existingFile.sem;
+
+    // Save the updated file details to the database
+    await existingFile.save();
+
+    res.json({ status: 'ok', message: 'File details updated successfully' });
+  } catch (error) {
+    console.error('Error updating file details:', error);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+});
+
+router.get('/get-file/:id', async (req, res) => {
+  const { id } = req.params; // Extract file ID from URL parameters
+
+  try {
+    // Find the file by ID in the database
+    const file = await UploadModel.findById(id);
+    if (!file) {
+      return res.status(404).json({ status: 'error', message: 'File not found' });
+    }
+
+    // Return the file data as a JSON response
+    res.json(file);
+  } catch (error) {
+    console.error('Error fetching file:', error);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+})
 
 module.exports = router;

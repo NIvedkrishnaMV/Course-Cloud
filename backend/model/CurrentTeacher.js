@@ -28,6 +28,6 @@ const CteacherSchema= mongoose.Schema({
    }
  })
 
- const CteacherModel=mongoose.model('Teacher',CteacherSchema);
+ const CteacherModel=mongoose.model('CTeacher',CteacherSchema);
 
  module.exports=CteacherModel;

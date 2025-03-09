@@ -12,6 +12,7 @@ import TeacherLogin from './pages/TeacherLogin';
 import ULandingPage from './pages/ULandingPage';
 import Uni from './pages/Uni';
 import Cor from './pages/Cor';
+import EditPdf from './pages/EditPdf';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       <Route path='/tcrlog' element={<TeacherLogin/>} />
       <Route path='/uni' element={<Uni/>} />
       <Route path='/cor' element={<Cor/>} />
+      <Route path='/editPdf' element={<EditPdf/>} />
     </Routes>
   )
 }

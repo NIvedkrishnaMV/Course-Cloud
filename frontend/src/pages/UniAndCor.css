@@ -1,27 +1,9 @@
-
-
-.grand-container{
+.div2{
     display: flex;
-    margin: auto;
-    align-self: center;
-    flex-direction: row;
-    width: 80%;
-    align-items: center;
     justify-content: center;
-    height: 70%;
-    background-color: aliceblue;
-    box-shadow: -2px -2px 15px rgb(62, 62, 62);
+    padding-top: 5%;
 }
-
-.child-container1,.child-container2{
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.child-container2{
-    background-color: #f0f0f0d6;
+.grand-container>table{
+    width: 100%;
+    height: fit-content;
 }

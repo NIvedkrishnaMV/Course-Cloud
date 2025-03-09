@@ -3,6 +3,7 @@ const router = express.Router();
 const TeacherModel = require('../model/TeacherModel');
 const CourseModel = require('../model/CourseModel');
 const UniversityModel = require('../model/UniversityModel');
+const CteacherModel = require('../model/CurrentTeacher')
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -42,8 +43,20 @@ router.post('/log', async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: "Email not registered" });
         } else if (password === user.password) { 
-            return res.status(200).json({ redirect: '/landing', isAdmin: false }); // Redirect to landing
-        } else {
+            console.log(user)
+            const adduser=new CteacherModel({
+                tname:user.tname,
+                email:user.email,
+                password:user.password,
+                age:user.age,
+                university:user.university,
+                course:user.course
+              });
+              await adduser.save();
+              return res.status(200).json({ redirect: '/landing', isAdmin: false }); // Redirect to landing
+        }
+        else {
+            
             return res.status(401).json({ error: "Incorrect password" });
         }
     } catch (error) {
@@ -64,6 +77,28 @@ router.delete('/del/:id', async(req,res)=>{
     } catch(error) {
         res.status(404).send({status:error});
     }
+});
+
+router.get('/TView', async (req, res) => {
+    try {
+      CteacherModel.find({}).then(data => {
+        const tnames = data.map(teacher => teacher.tname); // Extract only 'tname'
+        return res.json({ data: tnames });
+      });
+    } catch {
+      res.send({ status: "error", data: null });
+    }
+  });
+  
+
+
+router.delete('/logout', async (req, res) => {
+  try {
+      await CteacherModel.deleteMany({}); // This will delete all entries
+      res.status(200).send({ message: 'Logged Out' });
+  } catch (error) {
+      res.status(500).send({ message: 'Error deleting entries.', error });
+  }
 });
 
 router.post('/add-course', async (req, res) => {
