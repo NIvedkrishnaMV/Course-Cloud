@@ -143,18 +143,20 @@
   padding: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
  }
- .div2{
-  display: flex;
-  flex-direction: row;
+ .div2 {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   flex-wrap: wrap;
-  overflow: scroll;
-  border: solid 1px #bbbbbb;
+  padding: 20px; /* Add padding around the grid */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  border: 1px solid #bbbbbb; /* Keep the border */
   width: 100%;
-  margin: 10px;
   height: auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  align-items: start; 
+  justify-items: start;
  }
-
  .lph{
   display: flex;
   flex-direction: column;
@@ -188,3 +190,75 @@
     transform: translateY(2px) translateX(2px);
     
  }
+.filter{
+  position: absolute;
+  top: 0;
+  left: 10px;
+  margin: 10px;
+}
+ /* Styling for filter button */
+.filter-btn {
+  background-color:inherit; /* Primary blue */
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Styling for filter menu */
+.filter-menu {
+  position: absolute;
+  top: 70px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(46, 46, 46);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 200px;
+}
+
+.filter-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative; 
+}
+
+.filter-option:hover {
+  background-color: #f2f2f2; /* Light grey hover */
+}
+
+.inner-options {
+  position: absolute;
+  top: 0;
+  left: 100%; 
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none; 
+  z-index: 1000;
+  width: 250px;
+}
+
+.filter-option:hover .inner-options {
+  display: block; 
+}
+
+.inner-options div {
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.inner-options div:hover {
+  background-color: #e6e6e6; 
+}

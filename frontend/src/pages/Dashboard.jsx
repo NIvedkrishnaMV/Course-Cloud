@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './AdminPanel.css';
 import axios from 'axios';
-import  {Link} from 'react-router-dom';
+import  {Link, useNavigate} from 'react-router-dom';
 
 
 const Dashboard = () => {
   const [pdf, setPdf] = useState(null);
+  const navigate =useNavigate()
 
   const handleDelete = async (id) => {
     try {
@@ -17,13 +18,17 @@ const Dashboard = () => {
     }
   }
 
+  const handleShowPdf = (pdf) => {
+    const pdfId = pdf; 
+    navigate('/pdf', { state: { pdfId } });
+  };
+
   useEffect(() => {
     getPdf();
   }, []);
 
   const getPdf=async()=>{
     const result = await axios.get("http://localhost:3001/apip/view");
-    console.log(result.data.data)
     setPdf(result.data.data);
   }
 
@@ -33,10 +38,10 @@ const Dashboard = () => {
       <table className='dash-table'>
         <thead className='dash-table-head'>
           <tr>
-            <th>ID</th>
             <th>Title</th>
             <th>File Name</th>
             <th>Author</th>
+            <th>ViewFile</th>
             <th>University</th>
             <th>Semester</th>
             <th>Course</th>
@@ -47,10 +52,17 @@ const Dashboard = () => {
         <tbody className='dash-table-body'>
         {pdf == null? "" :  pdf.map(data => (
             <tr key={data._id}>
-              <td>{data._id}</td>
               <td>{data.title}</td>
               <td>{data.pdf}</td>
               <td>{data.author}</td>
+              <td>
+                <button className='viewButton' onClick={() => handleShowPdf(data._id)}>
+                  <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 24C2 24 10 8 24 8C38 8 46 24 46 24C46 24 38 40 24 40C10 40 2 24 2 24Z" stroke="#1E1E1E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M24 30C27.3137 30 30 27.3137 30 24C30 20.6863 27.3137 18 24 18C20.6863 18 18 20.6863 18 24C18 27.3137 20.6863 30 24 30Z" stroke="#1E1E1E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </td>
               <td>{data.university}</td>
               <td>{data.sem}</td>
               <td>{data.course}</td>
@@ -62,15 +74,6 @@ const Dashboard = () => {
                     </svg>
                   </button>
                 </Link>
-            </td>
-            <td>
-              <Link>
-                <button>
-                  <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 8H8C6.93913 8 5.92172 8.42142 5.17157 9.17157C4.42143 9.92171 4 10.9391 4 12V40C4 41.0609 4.42143 42.0783 5.17157 42.8284C5.92172 43.5786 6.93913 44 8 44H36C37.0609 44 38.0783 43.5786 38.8284 42.8284C39.5786 42.0783 40 41.0609 40 40V26M37 5C37.7956 4.20435 38.8748 3.75735 40 3.75735C41.1252 3.75735 42.2044 4.20435 43 5C43.7956 5.79564 44.2426 6.87478 44.2426 8C44.2426 9.12521 43.7956 10.2043 43 11L24 30L16 32L18 24L37 5Z" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </Link>
             </td>
             </tr>
              ))} 

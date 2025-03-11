@@ -9,7 +9,7 @@ const Profile = () => {
   const [profiles, setProfiles] = React.useState([]); 
 
   const goHome=()=>{
-    navigate(-1)
+    navigate(-1, { replace: true })
   }
 
 
@@ -23,11 +23,22 @@ const Profile = () => {
       });
   }, []);
 
-  const handleLogOut=async()=>{
-    await axios.delete("http://localhost:3001/apiu/logout");
-    alert("Logged Out");
-    navigate('/');
-  }
+  const handleLogOut = async () => {
+    try {
+      const userConfirmed = window.confirm("Do you want to proceed?");
+    
+      if (userConfirmed) {
+        axios.delete("http://localhost:3001/apiu/logout");
+        alert("Logged Out");
+        navigate('/',{ replace: true });
+      } else {
+        navigate('/landing',{ replace: true }) 
+      } 
+    } catch (error) {
+      console.error("Error during logout:", error);
+      alert("Failed to log out. Please try again.");
+    }
+  };
 
 
   return (

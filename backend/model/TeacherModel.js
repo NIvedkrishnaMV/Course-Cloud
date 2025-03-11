@@ -16,14 +16,6 @@ const TeacherSchema = mongoose.Schema({
    age: {
        type: Number,
        required: true
-   },
-   university: {
-       type: String,
-       required: true
-   },
-   course: {
-       type: String,
-       required: true
    }
 });
 

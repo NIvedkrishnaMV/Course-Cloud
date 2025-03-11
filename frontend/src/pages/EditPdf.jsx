@@ -18,7 +18,7 @@ useEffect(() => {
   console.log('pdfId:', pdfId); // Check if pdfId is being passed correctly
   if (!pdfId) {
     alert('Invalid PDF ID. Redirecting...');
-    navigate('/landing');
+    navigate('/landing', { replace: true });
   }
 }, [pdfId, navigate]);
 
@@ -54,7 +54,7 @@ useEffect(() => {
 
       if (result.data.status === 'ok') {
         alert('File details updated successfully');
-        navigate('/landing');
+        navigate('/landing', { replace: true });
       }
     } catch (error) {
       console.error('Error updating file details:', error);
@@ -67,7 +67,7 @@ useEffect(() => {
         <nav className="upload-navbar">
           <ul className="Lan-nav-links">
             <li>
-              <Link to={'/landing'}>
+              <Link to={'/landing', { replace: true }}>
                 <button className="back-button">
                   <svg
                     width="24"
@@ -89,56 +89,40 @@ useEffect(() => {
         </nav>
       </div>
       <div className="upload-content">
-        <div className="upload-form">
-          <h1 className="heading">Edit Your PDF Details</h1>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="File Name"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <br />
-            <br />
-            <button id="uploadButton" type="submit">
-              Update Details
-            </button>
-          </form>
-        </div>
         <div className="upload-details">
           <h1 className="heading">Edit File Details</h1>
-          <input
-            type="text"
-            placeholder="Author Name"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <label htmlFor="title">Title:</label>
+          <input type="text" placeholder='File name' id='title' value={title} onChange={(e) => setTitle(e.target.value)} />
+          <label htmlFor="course">Course name:</label>
+          <select id="course" value={course} onChange={(e) => setCourse(e.target.value)}>
+            <option value="">Select your Course</option>
+            <option value="University A">University A</option>
+            <option value="University B">University B</option>
+            <option value="University C">University C</option>
+          </select>
+          <label htmlFor="university">University:</label>
+          <select id="university" value={university} onChange={(e) => setUniversity(e.target.value)}>
+            <option value="">Select your University</option>
+            <option value="University A">University A</option>
+            <option value="University B">University B</option>
+            <option value="University C">University C</option>
+          </select>
+
+          <label htmlFor="semester">Semester:</label>
+          <select id="semester" value={sem} onChange={(e) => setSem(e.target.value)}>
+            <option value="">Select your Semester</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
           <br />
           <br />
-          <input
-            type="text"
-            placeholder="Course Name"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-          />
-          <br />
-          <br />
-          <input
-            type="text"
-            placeholder="University"
-            value={university}
-            onChange={(e) => setUniversity(e.target.value)}
-          />
-          <br />
-          <br />
-          <input
-            type="text"
-            placeholder="Semester"
-            value={sem}
-            onChange={(e) => setSem(e.target.value)}
-          />
-          <br />
-          <br />
+          <button id="uploadButton" onClick={handleSubmit}>Upload File</button>
         </div>
       </div>
     </div>

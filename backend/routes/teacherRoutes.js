@@ -9,15 +9,13 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.post("/reg", async(req,res)=>{
-    const {tname ,email, password ,age,university,course}=req.body;
+    const {tname ,email, password ,age}=req.body;
    try {
     const adduser = new TeacherModel({
       tname,
       email,
       password,
-      age,
-      university,
-      course
+      age
     });
     await adduser.save();
     return res.json(adduser);
@@ -48,9 +46,7 @@ router.post('/log', async (req, res) => {
                 tname:user.tname,
                 email:user.email,
                 password:user.password,
-                age:user.age,
-                university:user.university,
-                course:user.course
+                age:user.age
               });
               await adduser.save();
               return res.status(200).json({ redirect: '/landing', isAdmin: false }); // Redirect to landing

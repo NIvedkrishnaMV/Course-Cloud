@@ -1,76 +1,112 @@
-/* src/components/Modal.css */
+/* Modal Overlay Styling */
 .modal-overlay {
-    position:fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background: rgb(206, 206, 206);
-    padding: 10px;
-    border-radius: 10px;
-    width: 500px;
-    height: 600px;
-    box-shadow: 5px 5px 10px rgba(54, 54, 54, 0.904);
-    position: relative;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-content h1{
-    display: flex;
-    justify-self: center;
-    align-self: center;
-  }
-  
-  .close-button {
-    color: black;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border:0 px;
-    font-size: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-
-  .login-btn {
-    background-color: rgba(5, 102, 228, 0.668); /* Green */
-    color: white;
-    margin-left: 199px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* css for input tags on the login */
-.email-input {
-  margin-top: 30%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   display: flex;
-  justify-self: center;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 65%; /* Adjust width as needed */
-  margin-bottom: 10px; /* Space between inputs */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
+/* Modal Content Styling */
+.modal-content {
+  background: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  height: 600px;
+  box-shadow: 5px 5px 10px rgba(54, 54, 54, 0.904);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Modal Header */
+.modal-content h1 {
+  margin: 20px 0;
+  font-size: 30px;
+  text-align: center;
+  color: #333;
+}
+
+/* Close Button Styling */
+.close-button {
+  color: black;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.modal-content form{
+  width: 75%;
+  padding: 20px;
+}
+
+/* Center the Log In Button and New User section */
+.login-btn {
+  background-color: rgba(5, 102, 228, 0.668); /* Blue */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block; 
+  margin: 5px auto; 
+}
+
+/* New User Section Center Alignment */
+.newuserp {
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.newuserp a {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+
+/* Adjust input field length */
+.email-input,
 .password-input {
-  display: flex;
-  justify-self: center;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 65%; /* Adjust width as needed */
-  margin-bottom: 10px; /* Space between inputs */
+  width: 100%; 
+  font-size: 16px;
+  margin-bottom: 20px; 
 }
+
+/* Decrease space between label and field */
+.email-input-label,
+.password-input-label {
+  font-size: 16px;
+  font-weight: bold; /* Reduced space */
+  display: block;
+  color: #333;
+  width: 100%;
+  text-align: left;
+}
+
+
+
+
+
+
+
+

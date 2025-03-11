@@ -11,7 +11,7 @@ function PdfComp() {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const goBack = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1, { replace: true }); // Navigate to the previous page
   }
 
   useEffect(() => {

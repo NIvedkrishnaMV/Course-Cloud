@@ -7,7 +7,7 @@ const CourseSchema= mongoose.Schema({
     required: true
   },
    years: {
-     type: String,
+     type: Number,
     required: true
   }
 })

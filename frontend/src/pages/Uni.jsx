@@ -19,14 +19,21 @@ const Uni = () => {
     // Handle logout
     const handleLogOut = async () => {
         try {
-            await axios.delete("http://localhost:3001/apiu/logout");
+          const userConfirmed = window.confirm("Do you want to proceed?");
+        
+          if (userConfirmed) {
+            axios.delete("http://localhost:3001/apiu/logout");
+            sessionStorage.clear();
             alert("Logged Out");
             navigate('/');
+          } else {
+            navigate('/uni') 
+          } 
         } catch (error) {
-            console.error("Logout error:", error);
-            alert("Failed to log out. Please try again.");
+          console.error("Error during logout:", error);
+          alert("Failed to log out. Please try again.");
         }
-    };
+      };
 
     // Navigate to home
     const goHome = () => {
@@ -84,7 +91,7 @@ const Uni = () => {
                         </li>
                     </ul>
                 )}
-                <div className="div2">
+                <div className="div21">
                     <div className="grand-container">
                         <h1>VIEW UNIVERSITIES</h1>
                         <table>

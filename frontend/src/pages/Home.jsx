@@ -1,11 +1,11 @@
 import React from 'react';
-import './style.css';
 import logo from './logo.jpg'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TeacherSign.css';
 import axios from 'axios'
-import './modal.css';
+import './Modal.css';
+import './style.css';
 
 
 const Home = () => {
@@ -35,11 +35,11 @@ const Home = () => {
         if (response.status === 200) {
           if(response.data.isAdmin){
             alert("Welcome Admin");
-            navigate('/admin');
+            navigate('/admin', { replace: true });
           }
           else{
             alert("Welcome User");
-            navigate('/ulanding');
+            navigate('/ulanding', { replace: true });
           }
         }
         else if (response.status === 404) {
@@ -100,7 +100,7 @@ const Home = () => {
     }
     else if(res.status ===200){
       alert("registered successfully");
-      navigate('/');
+      navigate('/', { replace: true });
     }
     else{
       alert('Login Failed')
@@ -120,7 +120,7 @@ const Home = () => {
         const response = await axios.post('http://localhost:3001/apit/log', {email,password});
         if (response.status === 200) {
             alert("Welcome User");
-            navigate('/landing');
+            navigate('/landing', { replace: true });
         }
         else if (response.status === 404) {
           const errorMessage = response.data;
@@ -161,16 +161,14 @@ const Home = () => {
         tname,
         email,
         password,
-        age,
-        university,
-        course
+        age
       });
-      if(tname===''||email===''||password===''||age===''||university===''||course===''){
+      if(tname===''||email===''||password===''||age===''){
         alert("You missed value");
       }
       else if(res.status ===200){
         alert("registered successfully");
-        navigate('/');
+        window.location.reload();
       }
       else{
         alert('Login Failed')
@@ -278,83 +276,118 @@ const handleClose=()=>{
 
         {/* User login page */}
         { userLog &&(
-          <div className="modal-overlay">
+        
+        <div className="modal-overlay">
           <div className="modal-content">
               <button className="close-button" onClick={handleClose}>X</button>
               <h1>Login</h1>
               <form>
+                  <label htmlFor="email" className="email-input-label">Email</label>
                   <input
                       className='email-input'
                       type="text"
-                      placeholder="Email"
+                      id="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                   /><br /><br />
+                  <label htmlFor="password" className="password-input-label">Password</label>
                   <input
                       className='password-input'
                       type="password"
-                      placeholder="Password"
+                      id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                   /><br />
-                    <br />
+                  <br />
                   <button className="login-btn" onClick={handleULSubmit} type="submit">Log In</button><br />
-                  <div className="newuser"><h4>New User? <a onClick={handleUsign}>Signup</a></h4></div>
+                  
               </form>
+              <h4 className="newuserp">New User? <a onClick={handleUsign}>Signup</a></h4>
           </div>
-          </div>
+        </div>
+      
         )}
 
         {/* User signUp page */}
        {userSign &&(
-         <div className='modal-overlay'>
-          <div  className="modal-content">
-            <button className="close-button" onClick={handleClose}>X</button>
-              <h1>SignUp</h1>
-              <br /><br />
-              <input type="text" className='inputs-style' onChange={(e) => setUname(e.target.value)} placeholder="Username"  />
-              <br /><br />
-              <input type="email" className='inputs-style' onChange={(e) => setEmail(e.target.value)}  placeholder="Email" />
-              <br /><br />
-              <input type="password" className='inputs-style' onChange={(e) => setPassword(e.target.value)}  placeholder="Password" />
-              <br /><br />
-              <div className="gend-style">
-              <label>
-              Gender:
-                <input 
-                  type="radio" 
-                  name="gender" 
-                  value="male" 
-                  checked={gender === 'male'} 
-                  onChange={handleGenderChange} 
-                />
-                Male
-              </label>&nbsp;&nbsp;
-              <label>
-                <input 
-                  type="radio" 
-                  name="gender" 
-                  value="female" 
-                  checked={gender === 'female'} 
-                  onChange={handleGenderChange} 
-                />
-                Female
-              </label>
+         <div className="modal-overlay">
+         <div className="modal-content">
+         <button className="close-button" onClick={handleClose}>X</button>
+         <h1>User Signup</h1>
+         <form className='sign-form' onSubmit={handleUSSubmit}>
+             <label htmlFor="uname">Name</label>
+             <input
+                 type="text"
+                 id="uname"
+                 onChange={(e) => setUname(e.target.value)}
+                 required
+             />
+
+             <label htmlFor="email">Email</label>
+             <input
+                 type="email"
+                 id="email"
+                 value={email}
+                 onChange={(e) => setEmail(e.target.value)}
+                 required
+             />
+
+             <label htmlFor="password">Password</label>
+             <input
+                 type="password"
+                 id="password"
+                 value={password}
+                 onChange={(e) => setPassword(e.target.value)}
+                 required
+             />
+
+             <label htmlFor="age">Age</label>
+             <input
+                 type="number"
+                 id="age"
+                 value={age}
+                 onChange={(e) => setAge(e.target.value)}
+                 required
+             />
+          <label>Gender</label>
+            <div className='gender'>
+              <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="male"
+                  onChange={handleGenderChange}
+                  checked={gender === 'male'}
+              />
+              <label htmlFor="male">Male</label>
+
+              <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="female"
+                  onChange={handleGenderChange}
+                  checked={gender === 'female'}
+              />
+              <label htmlFor="female">Female</label>
               </div>
-              <br /><br />
-              <input type="text" className='inputs-style' onChange={(e) => setAge(e.target.value)}  placeholder="Age" />
-              <br /><br />
-              <input type="text" className='inputs-style' onChange={(e) => setPhone(e.target.value)}  placeholder="Phone Number" />
-              <br /><br />
-              
-              <button type="submit" className='sign-btn' onClick={handleUSSubmit} >Sign Up</button>
-              <p className="login-prompt">
-                Already a user? <a onClick={handleUlog} >Login</a>
-               </p>
-            </div>
+              <label htmlFor="phone">Phone</label>
+              <input
+                  type="tel"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter phone number"
+                  pattern="[0-9]{10}" 
+                  required
+              />
+
+              <button type="submit" className='login-btn'>Sign Up</button>
+            </form>
           </div>
+        </div>
         )}
 
         {/* Admin login page */}
@@ -364,18 +397,18 @@ const handleClose=()=>{
               <button className="close-button" onClick={handleClose}>X</button>
               <h1>Admin Login</h1>
               <form>
+              <label htmlFor="email" className="email-input-label">Email</label>
                   <input
                       className='email-input'
                       type="text"
-                      placeholder="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                   /><br /><br />
+                  <label htmlFor="email" className="email-input-label">Password</label>
                   <input
                       className='password-input'
                       type="password"
-                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
@@ -394,82 +427,75 @@ const handleClose=()=>{
              <button className="close-button" onClick={handleClose}>X</button>
               <h1>Faculty Login</h1>
               <form>
+              <label htmlFor="email" className="email-input-label">Email</label>
                   <input
                       className='email-input'
                       type="text"
-                      placeholder="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                   /><br /><br />
+                  <label htmlFor="email" className="email-input-label">Password</label>
                   <input
                       className='password-input'
                       type="password"
-                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                   /><br />
                     <br />
                   <button className="login-btn" onClick={handleFLSubmit} type="submit">Log In</button><br />
-                  <div className="newuser"><h4>New User?<a onClick={handleFsign}>Signup</a></h4></div>
+                  <div className="newuserp"><h4>New User?<a onClick={handleFsign}>Signup</a></h4></div>
               </form>
           </div>
           </div>
         )}
         {/* faculty Sign in */}
         {facultySign && (
-          <div className="modal-overlay">
-          <div className="form">
-            <div className="title">
-            <h2 >Create an Account</h2>
-            <button className='close' onClick={handleClose}>X</button>
-            </div>
-            <div className="input-group">
-              <label htmlFor="username" className="label">Username</label>
-              <input type="text" id="username" onChange={(e) => setTname(e.target.value)} name="username" required className="input" />
-            </div>
-    
-            <div className="input-group">
-              <label htmlFor="email" className="label">Email</label>
-              <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} name="email" required className="input" />
-            </div>
-    
-            <div className="input-group">
-              <label htmlFor="password" className="label">Password</label>
-              <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} name="password" required className="input" />
-            </div>
-    
-            <div className="input-group">
-              <label htmlFor="password" className="label">Age</label>
-              <input type="text" id="age" onChange={(e) => setAge(e.target.value)} name="age" required className="input" />
-            </div>
-    
-            <div className="input-group">
-              <label htmlFor="university" className="label">University</label>
-              <select id="university" onChange={(e) => setUniversity(e.target.value)} name="university" required className="input">
-                <option value="">Select University</option>
-                <option value="university1">University 1</option>
-                <option value="university2">University 2</option>
-                <option value="university3">University 3</option>
-              </select>
-            </div>
-    
-            <div className="input-group">
-              <label htmlFor="course" className="label">Course</label>
-              <select id="course" onChange={(e) => setCourse(e.target.value)} name="course" required className="input">
-                <option value="">Select Course</option>
-                <option value="course1">Course 1</option>
-                <option value="course2">Course 2</option>
-                <option value="course3">Course 3</option>
-              </select>
-            </div>
-    
-            <button type="submit" onClick={handleFSSubmit} className="button">Sign Up</button>
-    
-            <p className="login-prompt">
-              Already a user? <a onClick={handleFlog} className="login-link">Login</a>
-            </p>
+        <div className="modal-overlay">
+          <div className="modal-content">
+          <button className="close-button" onClick={handleClose}>X</button>
+          <h1>Teacher Signup</h1>
+          <form className='sign-form' onSubmit={handleFSSubmit}>
+              <label htmlFor="tname">Name</label>
+              <input
+                  type="text"
+                  id="tname"
+                  value={tname}
+                  onChange={(e) => setTname(e.target.value)}
+                  required
+              />
+
+              <label htmlFor="email">Email</label>
+              <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+              />
+
+              <label htmlFor="password">Password</label>
+              <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+              />
+
+              <label htmlFor="age">Age</label>
+              <input
+                  type="number"
+                  id="age"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  required
+              />
+
+
+              <button type="submit" className='login-btn'>Sign Up</button>
+          </form>
           </div>
         </div>
         )}

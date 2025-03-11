@@ -10,7 +10,41 @@ function ULandingPage() {
   const [searchText, setSearchText] = useState('');
   const [menuToggle,setMenuToggle]=useState(false);
 
+  const [showFilters, setShowFilters] = useState(false);
+  const [activeFilter, setActiveFilter] = useState(null);
+  const [universityOptions , setUniversityOptions] = useState([]);
+  const [courseOptions , setCourseOptions] = useState([]);
+  const [FilterOption, setFilterOption] =useState('')
 
+  useEffect(() => {
+    const fetchUniversities = async () => {
+        try {
+            const result = await axios.get("http://localhost:3001/apit/uni-view");
+            setUniversityOptions(result.data.data || []); // Use a default empty array if no data
+        } catch (error) {
+            console.error("Error fetching universities:", error);
+        }
+    };
+    const fetchCourses = async () => {
+      try {
+          const result = await axios.get("http://localhost:3001/apit/cors-view");
+          setCourseOptions(result.data.data || []); // Use a default empty array if no data
+      } catch (error) {
+          console.error("Error fetching Courses:", error);
+      }
+    };
+
+  fetchCourses();
+  fetchUniversities();
+}, []);
+
+  const handleButtonClick = () => {
+    setShowFilters(!showFilters);
+  };
+
+  const handleFilterClick = (filter) => {
+    setActiveFilter(filter === activeFilter ? null : filter);
+  };
 
 
 
@@ -20,11 +54,22 @@ function ULandingPage() {
     setMenuToggle(prevState => !prevState);
   }
 
-  const handleLogOut=async()=>{
-    await axios.delete("http://localhost:3001/apiu/logout");
-    alert("Logged Out");
-    navigate('/');
-  }
+  const handleLogOut = async () => {
+    try {
+      const userConfirmed = window.confirm("Do you want to proceed?");
+    
+      if (userConfirmed) {
+        axios.delete("http://localhost:3001/apiu/logout");
+        alert("Logged Out");
+        navigate('/',{ replace: true });
+      } else {
+        navigate('/landing',{ replace: true }) 
+      } 
+    } catch (error) {
+      console.error("Error during logout:", error);
+      alert("Failed to log out. Please try again.");
+    }
+  };
 
   const handlepro=()=>{
     navigate('/profile');
@@ -46,6 +91,26 @@ function ULandingPage() {
     const result = await axios.get("http://localhost:3001/apip/view");
     setAllPdf(result.data.data);
   };
+  const filterData = (query) => {
+    const filtered = allPdf.filter(
+      (item) =>
+        item.courseName?.includes(query) || // Match with course
+        item.universityName?.includes(query) // Match with university
+    );
+    setAllPdf(filtered);
+    console.log(allPdf)
+  };
+
+  const handleFilter = (filteroption)=>{
+    setFilterOption(filteroption);
+    console.log(FilterOption)
+    filterData(FilterOption);
+  }
+
+
+
+
+  
 
   const handleShowPdf = (pdf) => {
     const pdfId = pdf; 
@@ -61,6 +126,55 @@ function ULandingPage() {
             <img className='lph' src="https://static.vecteezy.com/system/resources/previews/004/495/548/original/light-soft-color-blue-low-poly-crystal-background-polygon-design-pattern-low-poly-illustration-low-polygon-background-free-vector.jpg" alt="" />
       <nav className="Lan-navbar">
         <div className="empty"></div>
+        <div className="filter">
+          <button className="filter-btn" onClick={handleButtonClick}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 4h16"></path>
+            <path d="M8 10h8"></path>
+            <path d="M10 16h4"></path>
+          </svg>
+          </button>
+          {showFilters && (
+                  <div className="filter-menu" >
+                    <div
+                      className="filter-option"
+                      onClick={() => handleFilterClick("course")}
+                    >
+                      Filter by Course
+                      {activeFilter === "course" && (
+                        <div className="inner-options" >
+                          {courseOptions && courseOptions.map((uni) => (
+                            <div key={uni._id}  onClick={() => handleFilter(uni.courseName)}>{uni.courseName}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className="filter-option"
+                      onClick={() => handleFilterClick("university")}
+                    >
+                      Filter by University
+                      {activeFilter === "university" && (
+                        <div className="inner-options" >
+                          {universityOptions && universityOptions.map((uni) => (
+                            <div key={uni._id} onClick={() => handleFilter(uni.universityName)}>{uni.universityName}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+        </div>
           <ul className="Lan-nav-links">
             <li><button className='Lan-homebtn' onClick={()=>goHome()}>Home</button></li>
             {/* profile btn */}
@@ -77,7 +191,9 @@ function ULandingPage() {
           {allPdf && allPdf.map(data => (
             <div key={data.pdf} className="card">
               <h2 className='card-title'>{data.title}</h2>
-              <p className='card-description'>{data.description}</p>
+              <p className='card-description'>Author: {data.author}</p>
+              <p className='card-description'>University: {data.university}</p>
+              <p className='card-description'>Course: {data.course}</p>
               <button className='card-button' onClick={() => handleShowPdf(data._id)}>Show PDF</button>
             </div>
           ))}
