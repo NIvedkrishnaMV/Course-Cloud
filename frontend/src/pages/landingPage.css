@@ -145,14 +145,13 @@
  }
  .div2 {
   display: grid; /* Use grid layout */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  flex-wrap: wrap;
-  padding: 20px; /* Add padding around the grid */
+  grid-template-columns: repeat(5, minmax(300px, 1fr));
+  padding: 20px;
+  overflow-x: hidden;
   overflow-y: auto; /* Enable vertical scrolling if content overflows */
   border: 1px solid #bbbbbb; /* Keep the border */
   width: 100%;
   height: auto;
-  margin: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
   align-items: start; 
   justify-items: start;
@@ -169,6 +168,9 @@
   width: 99.6vw;
   padding: 0%;
   margin: 0;
+ }
+ .d1{
+  display: flex;
  }
 
  .Lan-homebtn{
@@ -191,7 +193,7 @@
     
  }
 .filter{
-  position: absolute;
+  position: relative;
   top: 0;
   left: 10px;
   margin: 10px;
@@ -214,14 +216,19 @@
 /* Styling for filter menu */
 .filter-menu {
   position: absolute;
-  top: 70px;
+  display: none;
+  top: 100%;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(46, 46, 46);
   border-radius: 8px;
+  transition: background-color 0.3s ease;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   width: 200px;
+}
+.filter:hover .filter-menu {
+  display: block;
 }
 
 .filter-option {
@@ -234,6 +241,8 @@
 .filter-option:hover {
   background-color: #f2f2f2; /* Light grey hover */
 }
+
+
 
 .inner-options {
   position: absolute;

@@ -57,7 +57,7 @@ body {
   font-weight: bold;
 }
 
-input[type="text"], input[type="file"] {
+.upload-text, .upload-file {
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 15px;

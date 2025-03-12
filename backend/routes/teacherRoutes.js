@@ -85,6 +85,17 @@ router.get('/TView', async (req, res) => {
       res.send({ status: "error", data: null });
     }
   });
+
+router.get('/proView',async(req,res)=>{
+  try{
+    CteacherModel.find({}).then(data=>{
+      res.send({status:"ok" ,data :data });
+    })
+  }
+  catch{
+    res.send({status:"error" ,data :null });
+  }
+});
   
 
 

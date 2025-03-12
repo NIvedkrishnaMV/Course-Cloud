@@ -112,7 +112,7 @@ const Upload = () => {
           {/* <label htmlFor="author">Author:</label>
           <input type="text" placeholder='File name' id='author' onChange={(e) => setAuthor(e.target.value)} /> */}
           <label htmlFor="title">Title:</label>
-          <input type="text" placeholder='File name' id='title' onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" className='upload-text' placeholder='File name' id='title' onChange={(e) => setTitle(e.target.value)} />
           <label htmlFor="university">University:</label>
           <select id="university" onChange={(e) => setUniversity(e.target.value)}>
             <option value="">Select your University</option>
@@ -147,7 +147,7 @@ const Upload = () => {
           <h1 className='heading'>Upload Your File</h1>
           <div className="drop-zone" onDragOver={handleDragOver} onDrop={handleDrop}>
             <p>Drag and drop a file here or click to browse.</p>
-            <input type="file" id="browse" onChange={handleFileChange} accept=".pdf, .docx, .pptx, .txt, .xlsx" multiple />
+            <input type="file" className='upload-file' id="browse" onChange={handleFileChange} accept=".pdf, .docx, .pptx, .txt, .xlsx" multiple />
             <button id="uploadButton" onClick={handleSubmit}>Upload File</button>
           </div>
           {uploadedFiles.length > 0 && (

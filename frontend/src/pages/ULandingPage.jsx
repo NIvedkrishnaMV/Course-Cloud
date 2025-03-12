@@ -4,220 +4,229 @@ import './landingPage.css';
 import './Card.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-
 function ULandingPage() {
   const [allPdf, setAllPdf] = useState(null);
   const [searchText, setSearchText] = useState('');
-  const [menuToggle,setMenuToggle]=useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
 
-  const [showFilters, setShowFilters] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(null);
-  const [universityOptions , setUniversityOptions] = useState([]);
-  const [courseOptions , setCourseOptions] = useState([]);
-  const [FilterOption, setFilterOption] =useState('')
-
-  useEffect(() => {
-    const fetchUniversities = async () => {
-        try {
-            const result = await axios.get("http://localhost:3001/apit/uni-view");
-            setUniversityOptions(result.data.data || []); // Use a default empty array if no data
-        } catch (error) {
-            console.error("Error fetching universities:", error);
-        }
-    };
-    const fetchCourses = async () => {
-      try {
-          const result = await axios.get("http://localhost:3001/apit/cors-view");
-          setCourseOptions(result.data.data || []); // Use a default empty array if no data
-      } catch (error) {
-          console.error("Error fetching Courses:", error);
-      }
-    };
-
-  fetchCourses();
-  fetchUniversities();
-}, []);
-
-  const handleButtonClick = () => {
-    setShowFilters(!showFilters);
-  };
-
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter === activeFilter ? null : filter);
-  };
-
-
+  const [filteredPdf, setFilteredPdf] = useState([]); // Store filtered PDFs
+  const [courseFilter, setCourseFilter] = useState(''); // Selected course filter
+  const [universityFilter, setUniversityFilter] = useState('');
+  const [courseOptions, setCourseOptions] = useState([]); // Store courses from API
+  const [universityOptions, setUniversityOptions] = useState([]); // Store universities from API
 
   const navigate = useNavigate();
 
-  const showMenu=()=>{
-    setMenuToggle(prevState => !prevState);
-  }
-
-  const handleLogOut = async () => {
-    try {
-      const userConfirmed = window.confirm("Do you want to proceed?");
-    
-      if (userConfirmed) {
-        axios.delete("http://localhost:3001/apiu/logout");
-        alert("Logged Out");
-        navigate('/',{ replace: true });
-      } else {
-        navigate('/landing',{ replace: true }) 
-      } 
-    } catch (error) {
-      console.error("Error during logout:", error);
-      alert("Failed to log out. Please try again.");
-    }
-  };
-
-  const handlepro=()=>{
-    navigate('/profile');
-  }
-
-  const handleSearch = () => {
-    console.log('clicked');
-  }
-
-  const handleClear = () => {
-    setSearchText('');
-  };
-
+  // Fetch courses and universities
   useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const result = await axios.get('http://localhost:3001/apit/uni-view');
+        setUniversityOptions(result.data.data || []); // Default to an empty array
+      } catch (error) {
+        console.error('Error fetching universities:', error);
+      }
+    };
+
+    const fetchCourses = async () => {
+      try {
+        const result = await axios.get('http://localhost:3001/apit/cors-view');
+        setCourseOptions(result.data.data || []); // Default to an empty array
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
+    fetchUniversities();
+  }, []);
+
+  // Fetch PDFs
+  useEffect(() => {
+    const getPdf = async () => {
+      try {
+        const result = await axios.get('http://localhost:3001/apip/view');
+        setAllPdf(result.data.data);
+        setFilteredPdf(result.data.data); 
+      } catch (error) {
+        console.error('Error fetching PDFs:', error);
+      }
+    };
+
     getPdf();
   }, []);
 
-  const getPdf = async () => {
-    const result = await axios.get("http://localhost:3001/apip/view");
-    setAllPdf(result.data.data);
-  };
-  const filterData = (query) => {
-    const filtered = allPdf.filter(
-      (item) =>
-        item.courseName?.includes(query) || // Match with course
-        item.universityName?.includes(query) // Match with university
-    );
-    setAllPdf(filtered);
-    console.log(allPdf)
-  };
+  // Apply filter when course or university filter changes
+  useEffect(() => {
+    const applyFilter = () => {
+      if (!allPdf) return;
 
-  const handleFilter = (filteroption)=>{
-    setFilterOption(filteroption);
-    console.log(FilterOption)
-    filterData(FilterOption);
-  }
+      const filtered = allPdf.filter((pdf) => {
+        const matchesCourse = courseFilter ? pdf.course === courseFilter : true;
+        const matchesUniversity = universityFilter
+          ? pdf.university === universityFilter
+          : true;
+        return matchesCourse && matchesUniversity;
+      });
 
+      setFilteredPdf(filtered);
+    };
 
+    applyFilter();
+  }, [courseFilter, universityFilter, allPdf]);
 
-
-  
-
+  // Navigation and utility functions
   const handleShowPdf = (pdf) => {
-    const pdfId = pdf; 
+    const pdfId = pdf;
     navigate('/pdf', { state: { pdfId } });
   };
 
-  const goHome=()=>{
+  const handleLogOut = async () => {
+    try {
+      const userConfirmed = window.confirm('Do you want to proceed?');
+
+      if (userConfirmed) {
+        axios.delete('http://localhost:3001/apiu/logout');
+        alert('Logged Out');
+        navigate('/', { replace: true });
+      } else {
+        navigate('/landing', { replace: true });
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+      alert('Failed to log out. Please try again.');
+    }
+  };
+
+  const handlepro = () => {
+    navigate('/profile',{ state: { isTeacher: false } });
+  };
+
+  const goHome = () => {
     navigate('/ulanding');
-}
+  };
+
+  const showMenu = () => {
+    setMenuToggle((prevState) => !prevState);
+  };
 
   return (
     <div className="Lan-container">
-            <img className='lph' src="https://static.vecteezy.com/system/resources/previews/004/495/548/original/light-soft-color-blue-low-poly-crystal-background-polygon-design-pattern-low-poly-illustration-low-polygon-background-free-vector.jpg" alt="" />
+      <img
+        className="lph"
+        src="https://static.vecteezy.com/system/resources/previews/004/495/548/original/light-soft-color-blue-low-poly-crystal-background-polygon-design-pattern-low-poly-illustration-low-polygon-background-free-vector.jpg"
+        alt=""
+      />
       <nav className="Lan-navbar">
-        <div className="empty"></div>
-        <div className="filter">
-          <button className="filter-btn" onClick={handleButtonClick}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M4 4h16"></path>
-            <path d="M8 10h8"></path>
-            <path d="M10 16h4"></path>
-          </svg>
+      <div className="filter">
+          <button className="filter-btn">
+            {/* SVG icon or "Filter" text */}
+            <svg width="35" height="27" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap='round' d="M27.0927 20.2658L32.7591 11.2464L34.1421 13.5623L26.0472 26.4471L18.1425 13.4447L19.5594 11.1494L25.0927 20.2511L25.2374 0.552582L27.2374 0.567274L27.0927 20.2658Z" fill="white"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M28 4H0V1H28V4Z" strokeLinecap='round' fill="white"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M24 11H4V8H24V11Z" strokeLinecap='round' fill="white"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M21 18H7V15H21V18Z" strokeLinecap='round' fill="white"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M17 25H11V22H17V25Z" strokeLinecap='round' fill="white"/>
+                </svg>
           </button>
-          {showFilters && (
-                  <div className="filter-menu" >
-                    <div
-                      className="filter-option"
-                      onClick={() => handleFilterClick("course")}
-                    >
-                      Filter by Course
-                      {activeFilter === "course" && (
-                        <div className="inner-options" >
-                          {courseOptions && courseOptions.map((uni) => (
-                            <div key={uni._id}  onClick={() => handleFilter(uni.courseName)}>{uni.courseName}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <div
-                      className="filter-option"
-                      onClick={() => handleFilterClick("university")}
-                    >
-                      Filter by University
-                      {activeFilter === "university" && (
-                        <div className="inner-options" >
-                          {universityOptions && universityOptions.map((uni) => (
-                            <div key={uni._id} onClick={() => handleFilter(uni.universityName)}>{uni.universityName}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+          <div className="filter-menu">
+            {/* Dropdown for university filter */}
+            <div className="filter-option">
+              Filter by University
+              <div className="inner-options">
+                <div
+                  onClick={() => setUniversityFilter('')}
+                >
+                  All University
+                </div>
+                {universityOptions.map((uni) => (
+                  <div
+                    key={uni.universityName}
+                    onClick={() => setUniversityFilter(uni.universityName)}
+                  >
+                    {uni.universityName}
                   </div>
-                )}
-        </div>
-          <ul className="Lan-nav-links">
-            <li><button className='Lan-homebtn' onClick={()=>goHome()}>Home</button></li>
-            {/* profile btn */}
-            <li><button className='profileBtn' onClick={()=>handlepro()}><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="34px" fill="#fff"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg></button></li>
-            {/* logout button */}
-            <li><button className='profileBtn' onClick={()=>handleLogOut()}>
-            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="34px" fill="#fff"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
-              </button></li>
-          </ul>
-        </nav>
-      <div className="Lan-body">
-        
-          <div className="div2">
-          {allPdf && allPdf.map(data => (
-            <div key={data.pdf} className="card">
-              <h2 className='card-title'>{data.title}</h2>
-              <p className='card-description'>Author: {data.author}</p>
-              <p className='card-description'>University: {data.university}</p>
-              <p className='card-description'>Course: {data.course}</p>
-              <button className='card-button' onClick={() => handleShowPdf(data._id)}>Show PDF</button>
+                ))}
+              </div>
             </div>
-          ))}
+
+            {/* Dropdown for course filter */}
+            <div className="filter-option">
+              Filter by Course
+              <div className="inner-options">
+                <div
+                   onClick={() => setCourseFilter('')}
+                >
+                  All Courses
+                </div>
+                {courseOptions.map((course) => (
+                  <div
+                    key={course.courseName}
+                    onClick={() => setCourseFilter(course.courseName)}
+                  >
+                    {course.courseName}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-         
-        
-        
-          
-          {/* <div className="search-bar">
-            <input
-              type="text"
-              id='search-input'
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Search..."
-            />&nbsp;
-            <button onClick={handleClear} id="clear-button">X</button>
-            <button onClick={handleSearch} id="search-button">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.6 18L10.3 11.7C9.8 12.1 9.225 12.4167 8.575 12.65C7.925 12.8833 7.23333 13 6.5 13C4.68333 13 3.14583 12.3708 1.8875 11.1125C0.629167 9.85417 0 8.31667 0 6.5C0 4.68333 0.629167 3.14583 1.8875 1.8875C3.14583 0.629167 4.68333 0 6.5 0C8.31667 0 9.85417 0.629167 11.1125 1.8875C12.3708 3.14583 13 4.68333 13 6.5C13 7.23333 12.8833 7.925 12.65 8.575C12.4167 9.225 12.1 9.8 11.7 10.3L18 16.6L16.6 18ZM6.5 11C7.75 11 8.8125 10.5625 9.6875 9.6875C10.5625 8.8125 11 7.75 11 6.5C11 5.25 10.5625 4.1875 9.6875 3.3125C8.8125 2.4375 7.75 2 6.5 2C5.25 2 4.1875 2.4375 3.3125 3.3125C2.4375 4.1875 2 5.25 2 6.5C2 7.75 2.4375 8.8125 3.3125 9.6875C4.1875 10.5625 5.25 11 6.5 11Z" fill="#1D1B20"/>
+
+        <ul className="Lan-nav-links">
+          <li>
+            <button className="Lan-homebtn" onClick={goHome}>
+              Home
+            </button>
+          </li>
+          <li>
+            <button className="profileBtn" onClick={handlepro}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="34px"
+                fill="#fff"
+              >
+                <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z" />
               </svg>
             </button>
-          </div> */}
+          </li>
+          <li>
+            <button className="profileBtn" onClick={handleLogOut}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                viewBox="0 -960 960 960"
+                width="34px"
+                fill="#fff"
+              >
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <div className="Lan-body">
+        <div className="div2">
+          {filteredPdf &&
+            filteredPdf.map((data) => (
+              <div key={data.pdf} className="card">
+                <h2 className="card-title">{data.title}</h2>
+                <p className="card-description">Author: {data.author}</p>
+                <p className="card-description">
+                  University: {data.university}
+                </p>
+                <p className="card-description">Course: {data.course}</p>
+                <button
+                  className="card-button"
+                  onClick={() => handleShowPdf(data._id)}
+                >
+                  Show PDF
+                </button>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }

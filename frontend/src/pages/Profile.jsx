@@ -1,26 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./profile.css";
 import axios from 'axios';
 import LandingPage from './LandingPage';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [profiles, setProfiles] = React.useState([]); 
+  const [profiles, setProfiles] = useState([]); 
+  const [name, setName] =useState('');
+  const location = useLocation();
+  const isTeacher = location.state?.isTeacher;
+
+  
 
   const goHome=()=>{
+    setName('')
+    setProfiles([])
     navigate(-1, { replace: true })
   }
 
 
   useEffect(() => {
-    axios.get("http://localhost:3001/apiu/proView")
+    if(isTeacher){
+      axios.get("http://localhost:3001/apit/proView")
       .then(response => {
-        setProfiles(response.data.data); 
+        const firstElement =response.data.data[0];
+        setProfiles(firstElement);
+        setName(firstElement.tname)
       })
       .catch(error => {
         console.error("There was an error making the request:", error);
       });
+    }
+    else{
+      axios.get("http://localhost:3001/apiu/proView")
+      .then(response => {
+        const firstElement =response.data.data[0];
+        setProfiles(firstElement);
+        setName(firstElement.uname)
+      })
+      .catch(error => {
+        console.error("There was an error making the request:", error);
+      });
+    }
   }, []);
 
   const handleLogOut = async () => {
@@ -29,6 +51,8 @@ const Profile = () => {
     
       if (userConfirmed) {
         axios.delete("http://localhost:3001/apiu/logout");
+        setName('')
+        setProfiles([])
         alert("Logged Out");
         navigate('/',{ replace: true });
       } else {
@@ -60,8 +84,8 @@ const Profile = () => {
         <h1>PROFILE</h1> 
       </header>
       <div className="profile-content">
-        {profiles.map((profile) => (
-          <div className="profile-info" key={profile._id}>
+        {profiles? (
+          <div className="profile-info" key={profiles._id}>
             
             <div className="avatar">
               <svg width="100" height="100" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,13 +94,13 @@ const Profile = () => {
                 <path d="M20.0002 25C13.5259 25 8.00952 28.8284 5.9082 34.192C6.4201 34.7004 6.95934 35.1812 7.52353 35.6321C9.08827 30.7077 13.997 27 20.0002 27C26.0035 27 30.9122 30.7077 32.477 35.6321C33.0412 35.1812 33.5804 34.7004 34.0923 34.1921C31.991 28.8284 26.4746 25 20.0002 25Z" fill="#4F378A"/>
               </svg>
             </div>
-            <h2>Name: {profile.uname}</h2> 
-            <h3>Contact Information: {profile.phone}</h3>
-            <h3>Age: {profile.age}</h3>
-            <h3>Gender: {profile.gender}</h3>
-            <p>Email: {profile.email}</p> 
+            <h2>Name: {name}</h2> 
+            <h3>Age: {profiles.age}</h3>
+            <p>Email: {profiles.email}</p> 
           </div>
-        ))}
+        ):(
+          <></>
+        )}
       </div>
       
     </div>
