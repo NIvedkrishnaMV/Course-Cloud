@@ -151,8 +151,6 @@ const Home = () => {
   }
   // faculty sign in
   const [tname, setTname] = useState('');
-  const [university, setUniversity] = useState('');
-  const [course, setCourse] = useState('');
 
   const handleFSSubmit=async(event)=>{
     event.preventDefault();
@@ -189,6 +187,37 @@ const Home = () => {
  const [adminLog , setAdminlog]=useState(false);
  const [userSign , setUsersign]=useState(false);
  const [facultySign , setFacultysign]=useState(false);
+
+  const [error, setError] = useState("");
+
+  const handleValidation = (e) => {
+    const Pattern = new RegExp(e.target.pattern); 
+    const value = e.target.value;
+    const title = e.target.title;
+
+    if (value === "") {
+      e.target.style.border = "1px solid red";
+      setError("Fill All Fields"); 
+    } else if (!Pattern.test(value)) {
+      e.target.style.border = "1px solid red";
+      setError(title); 
+    } else {
+      e.target.style.border = "1px solid green";
+      setError("");
+    }
+  };
+  const handlePassValidation = (e) => { 
+    const value = e.target.value;
+    const title = e.target.title;
+
+    if (value === "") {
+      e.target.style.border = "1px solid red";
+      setError("Fill All Fields"); // Required message
+    } else {
+      e.target.style.border = "1px solid green";
+      setError(""); // Clear error if valid
+    }
+  };
 
  const openLogin =()=>{
   setIsLoginOpen(prevstate => !prevstate);
@@ -237,6 +266,14 @@ const handleClose=()=>{
   setAdminlog(false);
   setUsersign(false);
   setFacultysign(false);
+  setAge('');
+  setEmail('');
+  setError('');
+  setGender('');
+  setTname('');
+  setUname('');
+  setPhone('');
+  setPassword('');
 }
 
  
@@ -289,6 +326,9 @@ const handleClose=()=>{
                       id="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      title="Please enter a valid email address (e.g., example@mail.com)."
+                      pattern='^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                      onBlur={handleValidation}
                       required
                   /><br /><br />
                   <label htmlFor="password" className="password-input-label">Password</label>
@@ -298,10 +338,12 @@ const handleClose=()=>{
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      onBlur={handlePassValidation}
                       required
                   /><br />
+                  <span className="error-message">{error}</span>
                   <br />
-                  <button className="login-btn" onClick={handleULSubmit} type="submit">Log In</button><br />
+                  <button className="login-btn" onClick={handleULSubmit} disabled={error !== ""} type="submit">Log In</button><br />
                   
               </form>
               <h4 className="newuserp">New User? <a onClick={handleUsign}>Signup</a></h4>
@@ -312,9 +354,9 @@ const handleClose=()=>{
 
         {/* User signUp page */}
        {userSign &&(
-         <div className="modal-overlay">
-         <div className="modal-content">
-         <button className="close-button" onClick={handleClose}>X</button>
+         <div className="S-modal-overlay">
+         <div className="S-modal-content">
+         <button className="S-close-button" onClick={handleClose}>X</button>
          <h1>User Signup</h1>
          <form className='sign-form' onSubmit={handleUSSubmit}>
              <label htmlFor="uname">Name</label>
@@ -322,6 +364,7 @@ const handleClose=()=>{
                  type="text"
                  id="uname"
                  onChange={(e) => setUname(e.target.value)}
+                 onBlur={handlePassValidation}
                  required
              />
 
@@ -331,6 +374,9 @@ const handleClose=()=>{
                  id="email"
                  value={email}
                  onChange={(e) => setEmail(e.target.value)}
+                 title="Please enter a valid email address (e.g., example@mail.com)."
+                 onBlur={handleValidation}
+                 pattern='^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                  required
              />
 
@@ -340,6 +386,7 @@ const handleClose=()=>{
                  id="password"
                  value={password}
                  onChange={(e) => setPassword(e.target.value)}
+                 onBlur={handlePassValidation}
                  required
              />
 
@@ -349,6 +396,9 @@ const handleClose=()=>{
                  id="age"
                  value={age}
                  onChange={(e) => setAge(e.target.value)}
+                 title="Enter age between 1-99 (e.g., 24)"
+                  onBlur={handleValidation}
+                  pattern='{[1-9][0-9]}'
                  required
              />
           <label>Gender</label>
@@ -379,12 +429,15 @@ const handleClose=()=>{
                   id="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  title="Phone no should contain 10 characters (0-9)(e.g., 9876543210)"
+                  onBlur={handleValidation}
                   placeholder="Enter phone number"
                   pattern="[0-9]{10}" 
                   required
               />
+              <span className="error-message">{error}</span>
 
-              <button type="submit" className='login-btn'>Sign Up</button>
+              <button type="submit" disabled={error !== ""} className='login-btn'>Sign Up</button>
             </form>
           </div>
         </div>
@@ -403,6 +456,9 @@ const handleClose=()=>{
                       type="text"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      title="Please enter a valid email address (e.g., example@mail.com)."
+                      onBlur={handleValidation}
+                      pattern='^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                       required
                   /><br /><br />
                   <label htmlFor="email" className="email-input-label">Password</label>
@@ -411,10 +467,12 @@ const handleClose=()=>{
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      onBlur={handlePassValidation}
                       required
                   /><br />
+                  <span className="error-message">{error}</span>
                     <br />
-                  <button className="login-btn" onClick={handleULSubmit} type="submit">Log In</button><br />
+                  <button className="login-btn" onClick={handleULSubmit} disabled={error !== ""} type="submit">Log In</button><br />
               </form>
           </div>
           </div>
@@ -426,13 +484,16 @@ const handleClose=()=>{
           <div className="modal-content">
              <button className="close-button" onClick={handleClose}>X</button>
               <h1>Faculty Login</h1>
-              <form>
+              <form >
               <label htmlFor="email" className="email-input-label">Email</label>
                   <input
                       className='email-input'
                       type="text"
+                      title="Please enter a valid email address (e.g., example@mail.com)."
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      pattern='^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                      onBlur={handleValidation}
                       required
                   /><br /><br />
                   <label htmlFor="email" className="email-input-label">Password</label>
@@ -441,10 +502,12 @@ const handleClose=()=>{
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      onBlur={handlePassValidation}
                       required
                   /><br />
+                    <span className="error-message">{error}</span>
                     <br />
-                  <button className="login-btn" onClick={handleFLSubmit} type="submit">Log In</button><br />
+                  <button className="login-btn" onClick={handleFLSubmit} disabled={error !== ""} type="submit">Log In</button><br />
                   <div className="newuserp"><h4>New User?<a onClick={handleFsign}>Signup</a></h4></div>
               </form>
           </div>
@@ -452,9 +515,9 @@ const handleClose=()=>{
         )}
         {/* faculty Sign in */}
         {facultySign && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-          <button className="close-button" onClick={handleClose}>X</button>
+        <div className="S-modal-overlay">
+          <div className="S-modal-content">
+          <button className="S-close-button" onClick={handleClose}>X</button>
           <h1>Teacher Signup</h1>
           <form className='sign-form' onSubmit={handleFSSubmit}>
               <label htmlFor="tname">Name</label>
@@ -463,6 +526,7 @@ const handleClose=()=>{
                   id="tname"
                   value={tname}
                   onChange={(e) => setTname(e.target.value)}
+                  onBlur={handlePassValidation}
                   required
               />
 
@@ -472,6 +536,9 @@ const handleClose=()=>{
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  title="Please enter a valid email address (e.g., example@mail.com)."
+                  onBlur={handleValidation}
+                  pattern='^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                   required
               />
 
@@ -481,6 +548,7 @@ const handleClose=()=>{
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={handlePassValidation}
                   required
               />
 
@@ -490,11 +558,14 @@ const handleClose=()=>{
                   id="age"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
+                  title="Enter age between 1-99 (e.g., 24)"
+                  onBlur={handleValidation}
+                  pattern='{[1-9][0-9]}'
                   required
               />
+              <span className="error-message">{error}</span>
 
-
-              <button type="submit" className='login-btn'>Sign Up</button>
+              <button type="submit" className='login-btn' disabled={error !== ""} >Sign Up</button>
           </form>
           </div>
         </div>

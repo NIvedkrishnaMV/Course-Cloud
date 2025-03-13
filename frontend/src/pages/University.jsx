@@ -15,7 +15,7 @@ const University = () => {
   }
   return (
     <div>
-      <h1>hello</h1>
+      <h1>University</h1>
       <table className='dash-table'>
               <thead className='dash-table-head'>
                 <tr>

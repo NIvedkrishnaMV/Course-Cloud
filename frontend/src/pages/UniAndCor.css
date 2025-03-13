@@ -1,9 +1,49 @@
 .div21{
     display: flex;
+    width: 100%;
     justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
     padding-top: 5%;
 }
-.grand-container>table{
+.grand-container {
+    background-color: inherit;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.grand-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #0056b3;
+}
+
+table {
     width: 100%;
-    height: fit-content;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: inherit;
+    color: #495057;
+}
+
+table tr:hover {
+    background-color: #f1f3f5;
+}
+
+@media (max-width: 768px) {
+    .grand-container {
+        width: 95%;
+    }
 }

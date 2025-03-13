@@ -55,7 +55,7 @@ function LandingPage() {
       const userConfirmed = window.confirm("Do you want to proceed?");
     
       if (userConfirmed) {
-        axios.delete("http://localhost:3001/apiu/logout");
+        axios.delete("http://localhost:3001/apit/logout");
         sessionStorage.clear();
         alert("Logged Out");
         navigate('/', { replace: true });
@@ -172,7 +172,7 @@ function LandingPage() {
       <div className="filter">
           <button className="filter-btn">
             {/* SVG icon or "Filter" text */}
-            <svg width="35" height="27" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="24" height="24" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap='round' d="M27.0927 20.2658L32.7591 11.2464L34.1421 13.5623L26.0472 26.4471L18.1425 13.4447L19.5594 11.1494L25.0927 20.2511L25.2374 0.552582L27.2374 0.567274L27.0927 20.2658Z" fill="white"/>
                 <path fillRule="evenodd" clipRule="evenodd" d="M28 4H0V1H28V4Z" strokeLinecap='round' fill="white"/>
                 <path fillRule="evenodd" clipRule="evenodd" d="M24 11H4V8H24V11Z" strokeLinecap='round' fill="white"/>
@@ -266,7 +266,7 @@ function LandingPage() {
               <p className='card-description'>University: {data.university}</p>
               <p className='card-description'>Course: {data.course}</p>
               <div className="cbuttons"><button className='card-button' onClick={() => handleShowPdf(data._id)}>Show PDF</button>
-              <button className='card-button' onClick={()=>handleEdit(data._id)}>Edit PDF</button></div>
+              <button className='card-button' onClick={()=>handleEdit(data._id)}>Update Details</button></div>
             </div>
           ))}
           </div>

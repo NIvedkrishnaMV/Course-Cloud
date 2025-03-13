@@ -10,6 +10,8 @@ const EditPdf = () => {
   const [course, setCourse] = useState('');
   const [sem, setSem] = useState('');
   const navigate =useNavigate();
+  const [universityOptions , setUniversityOptions] = useState([]);
+  const [courseOptions , setCourseOptions] = useState([]);
 
   const location = useLocation();
 const pdfId = location.state?.pdfId;
@@ -21,6 +23,30 @@ useEffect(() => {
     navigate('/landing', { replace: true });
   }
 }, [pdfId, navigate]);
+
+useEffect(() => {
+  const fetchUniversities = async () => {
+      try {
+          const result = await axios.get("http://localhost:3001/apit/uni-view");
+          console.log("Fetched universities:", result.data.data);
+          setUniversityOptions(result.data.data || []); // Use a default empty array if no data
+      } catch (error) {
+          console.error("Error fetching universities:", error);
+      }
+  };
+  const fetchCourses = async () => {
+    try {
+        const result = await axios.get("http://localhost:3001/apit/cors-view");
+        setCourseOptions(result.data.data || []); // Use a default empty array if no data
+    } catch (error) {
+        console.error("Error fetching Courses:", error);
+    }
+  };
+
+fetchCourses();
+fetchUniversities();
+}, []);
+
 
   useEffect(() => {
     const fetchPdfDetails = async () => {
@@ -67,7 +93,7 @@ useEffect(() => {
         <nav className="upload-navbar">
           <ul className="Lan-nav-links">
             <li>
-              <Link to={'/landing', { replace: true }}>
+              <Link to={'/landing'}>
                 <button className="back-button">
                   <svg
                     width="24"
@@ -92,20 +118,20 @@ useEffect(() => {
         <div className="upload-details">
           <h1 className="heading">Edit File Details</h1>
           <label htmlFor="title">Title:</label>
-          <input type="text" placeholder='File name' id='title' value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" className='upload-text' placeholder='File name' id='title' value={title} onChange={(e) => setTitle(e.target.value)} />
           <label htmlFor="course">Course name:</label>
           <select id="course" value={course} onChange={(e) => setCourse(e.target.value)}>
             <option value="">Select your Course</option>
-            <option value="University A">University A</option>
-            <option value="University B">University B</option>
-            <option value="University C">University C</option>
+            {courseOptions && courseOptions.map((uni) => (
+              <option key={uni._id} value={uni.courseName}>{uni.courseName}</option>
+            ))}
           </select>
           <label htmlFor="university">University:</label>
           <select id="university" value={university} onChange={(e) => setUniversity(e.target.value)}>
             <option value="">Select your University</option>
-            <option value="University A">University A</option>
-            <option value="University B">University B</option>
-            <option value="University C">University C</option>
+            {universityOptions && universityOptions.map((uni) => (
+              <option key={uni._id} value={uni.universityName}>{uni.universityName}</option>
+            ))}
           </select>
 
           <label htmlFor="semester">Semester:</label>
@@ -122,7 +148,7 @@ useEffect(() => {
           </select>
           <br />
           <br />
-          <button id="uploadButton" onClick={handleSubmit}>Upload File</button>
+          <button id="uploadButton" onClick={handleSubmit}>Update File</button>
         </div>
       </div>
     </div>

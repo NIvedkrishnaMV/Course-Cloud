@@ -1,44 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@600&display=swap');
+/* Card Container */
 .card {
-  background-color: #f9f9f9ab; /* Light background for better readability */
-  border: 1px solid #ddd; /* Light border for separation */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-color: #ffffff; /* Clean white background */
+  border: 1px solid #e0e0e0; /* Subtle border for structure */
+  border-radius: 12px; /* Smoother rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow for depth */
   padding: 20px;
-  width: 250px;
-  height: fit-content;/* Center alignment and spacing */
-  max-width: 500px; /* Restrict width to prevent card from stretching too much */
-  font-family: Arial, sans-serif;
+  width: 100%; /* Adapts to container */
+  max-width: 350px; /* Restrict maximum size for consistency */
+  font-family: 'Arial', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth interactive effects */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.cbuttons{
+  width: 100%;
+  display: flex;
+  justify-self: center;
+  padding: 10px;
+  justify-content: space-between;
 }
 
+/* Hover Effects */
+.card:hover {
+  transform: translateY(-5px); /* Subtle lift effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Title Styling */
 .card-title {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2c3e50; /* Darker and modern text color */
+  margin-bottom: 15px;
+  text-align: left;
 }
 
+/* Description Styling */
 .card-description {
   font-size: 1rem;
-  color: #555;
-  margin: 5px 0; /* Spacing between each line */
+  color: #7f8c8d; /* Muted grey for secondary text */
+  margin: 8px 0;
+  text-align: left;
+  line-height: 1.5; /* Better readability */
 }
 
-.cbuttons {
-  display: flex; /* Arrange buttons horizontally */
-  justify-content: space-between; /* Space between buttons */
-  margin-top: 15px;
-}
-
+/* Button Styling */
 .card-button {
-  background-color: #007bff; /* Primary blue color */
-  color: white;
+  background-color: #3498db; /* Vibrant blue */
+  color: #ffffff;
   border: none;
-  border-radius: 4px;
-  padding: 10px 15px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 15px;
+  align-self: stretch; /* Makes button fill card width */
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
+/* Button Hover Effects */
 .card-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #1d6fa5; /* Slightly darker blue */
+  transform: scale(1.05); /* Adds emphasis on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    max-width: 90%; /* Adjusts card size on smaller screens */
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .card-button {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
 }
