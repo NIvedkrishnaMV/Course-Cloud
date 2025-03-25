@@ -3,6 +3,7 @@ import "./profile.css";
 import axios from 'axios';
 import LandingPage from './LandingPage';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -97,6 +98,22 @@ const Profile = () => {
             <h2>Name: {name}</h2> 
             <h3>Age: {profiles.age}</h3>
             <p>Email: {profiles.email}</p> 
+
+            <Button
+      variant="contained"
+      color="primary"
+      size="large"
+      sx={{
+        textTransform: "none", // Keeps the button text in sentence case
+        borderRadius: "8px", // Adds rounded corners
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow effect
+        padding: "8px 16px", // Adjusts padding for a balanced look
+        fontWeight: "bold", // Enhances text visibility
+      }}
+    >
+      Edit Profile
+    </Button>
+
           </div>
         ):(
           <></>
