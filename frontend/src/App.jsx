@@ -11,6 +11,9 @@ import Uni from './pages/Uni';
 import Cor from './pages/Cor';
 import EditPdf from './pages/EditPdf';
 import AddUniversity from './pages/AddUniversity';
+import Edit from './pages/Edit';
+import UEdit from './pages/UEdit';
+import UProfile from './pages/UProfile';
 
 function App() {
 
@@ -20,12 +23,15 @@ function App() {
       <Route path='/landing' element={<LandingPage />}/>
       <Route path='/ulanding' element={<ULandingPage />}/>
       <Route path="/profile" element={<Profile />} />
+      <Route path="/uprofile" element={<UProfile />} />
       <Route path="/upload" element={<Upload />} />
       <Route path='/admin' element={<AdminPanel/>} />
       <Route path='/pdf' element={<PdfComp/>} />    
       <Route path='/uni' element={<Uni/>} />
       <Route path='/cor' element={<Cor/>} />
       <Route path='/editPdf' element={<EditPdf/>} />
+      <Route path='/tedit' element={<Edit/>} />
+      <Route path='/edit' element={<UEdit/>} />
     </Routes>
   )
 }

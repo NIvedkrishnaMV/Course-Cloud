@@ -103,25 +103,26 @@ router.delete('/del/:id',async(req,res)=>{
 })
 
 router.put('/edit/:id', async (req, res) => {
-  const { id } = req.params;
-  const { uname, email, password, age, gender, phone } = req.body;
-
   try {
-    const updatedUser  = await User.findByIdAndUpdate(
-      id,
-      { uname, email, password, age, gender, phone },
-      { new: true } // Return the updated document
+    const userId = req.params.id; 
+    const updatedData = req.body; 
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      updatedData,
+      { new: true } 
     );
 
-    if (!updatedUser ) {
-      return res.status(404).json({ message: 'User  not found' });
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(updatedUser );
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating user', error });
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
 
 
 module.exports = router;

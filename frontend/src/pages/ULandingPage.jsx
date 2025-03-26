@@ -3,6 +3,9 @@ import axios from 'axios';
 import './landingPage.css';
 import './Card.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { IconButton, Typography } from '@mui/material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function ULandingPage() {
   const [allPdf, setAllPdf] = useState(null);
@@ -97,16 +100,11 @@ function ULandingPage() {
   };
 
   const handlepro = () => {
-    navigate('/profile',{ state: { isTeacher: "false" } });
+    navigate('/uprofile');
   };
 
-  const goHome = () => {
-    navigate('/ulanding');
-  };
+  
 
-  const showMenu = () => {
-    setMenuToggle((prevState) => !prevState);
-  };
 
   return (
     <div className="Lan-container">
@@ -116,17 +114,22 @@ function ULandingPage() {
         alt=""
       />
       <nav className="Lan-navbar">
-      <div className="filter">
-          <button className="filter-btn">
-            {/* SVG icon or "Filter" text */}
-            <svg width="35" height="27" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap='round' d="M27.0927 20.2658L32.7591 11.2464L34.1421 13.5623L26.0472 26.4471L18.1425 13.4447L19.5594 11.1494L25.0927 20.2511L25.2374 0.552582L27.2374 0.567274L27.0927 20.2658Z" fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M28 4H0V1H28V4Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M24 11H4V8H24V11Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M21 18H7V15H21V18Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M17 25H11V22H17V25Z" strokeLinecap='round' fill="white"/>
-                </svg>
-          </button>
+        <div className='d1'>
+      <Typography
+        sx={{
+          color: 'white',
+          fontSize: 25
+        }}
+      >
+        Course Cloud
+      </Typography>
+        </div>
+          <ul className="Lan-nav-links">
+          <li>
+            <div className="filter">
+          <IconButton className='filter-btn'>
+            <FilterAltIcon sx={{color: 'White',fontSize: '30px', }}/>
+          </IconButton>
           <div className="filter-menu">
             {/* Dropdown for university filter */}
             <div className="filter-option">
@@ -169,14 +172,10 @@ function ULandingPage() {
             </div>
           </div>
         </div>
-
-        <ul className="Lan-nav-links">
-          <li>
-            <button className="Lan-homebtn" onClick={goHome}>
-              Home
-            </button>
-          </li>
-          <li>
+            </li>
+            <li><button className='Lan-homebtn'>Home</button></li>
+            
+            <li>
             <button className="profileBtn" onClick={handlepro}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -189,21 +188,12 @@ function ULandingPage() {
               </svg>
             </button>
           </li>
-          <li>
-            <button className="profileBtn" onClick={handleLogOut}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="30px"
-                viewBox="0 -960 960 960"
-                width="34px"
-                fill="#fff"
-              >
-                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-              </svg>
-            </button>
-          </li>
-        </ul>
-      </nav>
+            {/* logout button */}
+            <li><button className='profileBtn' onClick={()=>handleLogOut()}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="34px" fill="#fff"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+              </button></li>
+          </ul>
+        </nav>
       <div className="Lan-body">
         <div className="div2">
           {filteredPdf &&

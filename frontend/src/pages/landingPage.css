@@ -257,7 +257,7 @@
 .inner-options {
   position: absolute;
   top: 0;
-  left: 100%; 
+  right: 100%; 
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -280,4 +280,13 @@
 
 .inner-options div:hover {
   background-color: #e6e6e6; 
+}
+
+.d1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2px;
+  width: 18%;
+  justify-content: space-evenly;
 }

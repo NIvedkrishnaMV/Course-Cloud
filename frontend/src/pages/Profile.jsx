@@ -9,12 +9,10 @@ const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [name, setName] = useState('');
-  const location = useLocation();
-  const isTeacher = location.state?.isTeacher;
 
   const goHome = () => {
     setName('');
-    navigate(-1, { replace: true });
+    navigate('/landing', { replace: true });
   };
 
   useEffect(() => {
@@ -25,34 +23,37 @@ const Profile = () => {
         return;
       }
       try {
-        const url = isTeacher === 'true' ? 'http://localhost:3001/apit/profile' : 'http://localhost:3001/apiu/profile';
+        const url = 'http://localhost:3001/apit/profile' ;
         const response = await axios.get(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(response.data);
-        setName(isTeacher === 'true' ? response.data.tname : response.data.uname);
+        setName( response.data.tname);
       } catch (error) {
         console.error(error.message);
         alert(error.response?.data?.message || 'Error fetching profile');
       }
     };
     fetchProfile();
-  }, [isTeacher]);
+  }, []);
+
+  const handleEdit = (users) => {
+      const user= users;
+      navigate(`/tedit` ,{state :{user:user}});
+  };
 
   const handleLogOut = async () => {
     try {
-      const userConfirmed = window.confirm('Do you want to proceed?');
+      const userConfirmed = window.confirm("Do you want to proceed?");
+    
       if (userConfirmed) {
-        await axios.delete('http://localhost:3001/apiu/logout');
-        setName('');
-        alert('Logged Out');
+        sessionStorage.clear();
+        alert("Logged Out");
         navigate('/', { replace: true });
-      } else {
-        navigate('/landing', { replace: true });
-      }
+      } 
     } catch (error) {
-      console.error('Error during logout:', error);
-      alert('Failed to log out. Please try again.');
+      console.error("Error during logout:", error);
+      alert("Failed to log out. Please try again.");
     }
   };
 
@@ -143,16 +144,6 @@ const Profile = () => {
         fontWeight: 'bold',
       }}
     >
-      Age: {user.age}
-    </Typography>
-    <Typography
-      variant="h6"
-      sx={{
-        color: 'text.secondary',
-        marginTop: 1.5,
-        fontWeight: 'bold',
-      }}
-    >
       Gender: {user.gender}
     </Typography>
     <Typography
@@ -171,6 +162,7 @@ const Profile = () => {
     <Button
       variant="contained"
       size="large"
+      onClick={()=>handleEdit(user)}
       sx={{
         textTransform: 'none',
         borderRadius: 3,

@@ -3,6 +3,10 @@ import axios from 'axios';
 import './landingPage.css';
 import './Card.css'
 import { Link, useNavigate } from 'react-router-dom';
+import { Button, IconButton, Typography } from '@mui/material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 function LandingPage() {
@@ -44,6 +48,7 @@ function LandingPage() {
   
       fetchCourses();
       fetchUniversities();
+      getPdf();
     }, []);
 
   const showMenu=()=>{
@@ -74,12 +79,12 @@ function LandingPage() {
     setSearchText('');
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await getPdf();
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await getPdf();
+  //   };
+  //   fetchData();
+  // }, []);
 
   const getPdf = async () => {
     try {
@@ -139,8 +144,22 @@ function LandingPage() {
     navigate('/editPdf', { state: { pdfId } }); 
   };
 
+  const handleDelete =async (pdf)=>{
+    try {
+      const userConfirmed = window.confirm("Do you want to delete your work?");
+      console.log(pdf)
+      if(userConfirmed){
+        await axios.delete(`http://localhost:3001/apip/del/${pdf}`);
+        console.log("deleted");
+        getPdf();
+      }
+    } catch (error) {
+      alert("Something went wrong! Try again later");
+    }
+  }
+
   const handlepro = () => {
-    navigate( '/profile' ,  { state: { isTeacher: "true" } });
+    navigate( '/profile' );
   };
   
   return (
@@ -153,17 +172,21 @@ function LandingPage() {
       }>
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#f0ffff"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
       </button>
-      <div className="filter">
-          <button className="filter-btn">
-            {/* SVG icon or "Filter" text */}
-            <svg width="24" height="24" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap='round' d="M27.0927 20.2658L32.7591 11.2464L34.1421 13.5623L26.0472 26.4471L18.1425 13.4447L19.5594 11.1494L25.0927 20.2511L25.2374 0.552582L27.2374 0.567274L27.0927 20.2658Z" fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M28 4H0V1H28V4Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M24 11H4V8H24V11Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M21 18H7V15H21V18Z" strokeLinecap='round' fill="white"/>
-                <path fillRule="evenodd" clipRule="evenodd" d="M17 25H11V22H17V25Z" strokeLinecap='round' fill="white"/>
-                </svg>
-          </button>
+      <Typography
+        sx={{
+          color: 'white',
+          fontSize: 25
+        }}
+      >
+        Course Cloud
+      </Typography>
+        </div>
+          <ul className="Lan-nav-links">
+          <li>
+            <div className="filter">
+          <IconButton className='filter-btn'>
+            <FilterAltIcon sx={{color: 'White',fontSize: '30px', }}/>
+          </IconButton>
           <div className="filter-menu">
             {/* Dropdown for university filter */}
             <div className="filter-option">
@@ -206,9 +229,9 @@ function LandingPage() {
             </div>
           </div>
         </div>
-        </div>
-          <ul className="Lan-nav-links">
+            </li>
             <li><button className='Lan-homebtn'>Home</button></li>
+            
             <li>
             <button className="profileBtn" onClick={handlepro}>
               <svg
@@ -249,8 +272,13 @@ function LandingPage() {
               <p className='card-description'>Author: {data.author}</p>
               <p className='card-description'>University: {data.university}</p>
               <p className='card-description'>Course: {data.course}</p>
-              <div className="cbuttons"><button className='card-button' onClick={() => handleShowPdf(data._id)}>Show PDF</button>
-              <button className='card-button' onClick={()=>handleEdit(data._id)}>Update Details</button></div>
+              <div className="cbuttons">
+                <Button variant='outlined' size="small" onClick={() => handleShowPdf(data._id)}>Show PDF</Button>
+                <Button variant='outlined' size="small" onClick={()=>handleEdit(data._id)}>Update Details</Button>
+                <IconButton color='error' onClick={()=>handleDelete(data._id)}>
+                  <DeleteIcon/>
+                </IconButton>
+              </div>
             </div>
           ))}
           </div>
