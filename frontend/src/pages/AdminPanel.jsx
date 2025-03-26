@@ -41,7 +41,6 @@ const AdminPanel = () => {
       const userConfirmed = window.confirm("Do you want to proceed?");
     
     if (userConfirmed) {
-      axios.delete("http://localhost:3001/apiu/logout");
       alert("Logged Out");
       navigate('/', { replace: true });
     }

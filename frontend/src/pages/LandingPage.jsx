@@ -145,7 +145,7 @@ function LandingPage() {
   
   return (
     <div className="Lan-container">
-            <img className='lph' src="https://static.vecteezy.com/system/resources/previews/004/495/548/original/light-soft-color-blue-low-poly-crystal-background-polygon-design-pattern-low-poly-illustration-low-polygon-background-free-vector.jpg" alt="" />
+      <img className='lph' src="https://static.vecteezy.com/system/resources/previews/004/495/548/original/light-soft-color-blue-low-poly-crystal-background-polygon-design-pattern-low-poly-illustration-low-polygon-background-free-vector.jpg" alt="" />
       <nav className="Lan-navbar">
         <div className='d1'>
       <button className='menu-btn' onClick={

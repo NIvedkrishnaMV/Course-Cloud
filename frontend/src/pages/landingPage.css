@@ -209,7 +209,7 @@
 }
  /* Styling for filter button */
 .filter-btn {
-  background-color:inherit; /* Primary blue */
+  background-color:inherit; 
   border: none;
   border-radius: 50%;
   width: 60px;
@@ -219,7 +219,8 @@
   align-items: center;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+} 
+
 
 
 /* Styling for filter menu */
