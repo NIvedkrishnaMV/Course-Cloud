@@ -16,6 +16,14 @@ const TeacherSchema = mongoose.Schema({
    age: {
        type: Number,
        required: true
+   },
+   gender:{
+    type: String,
+    required: true
+   },
+   phone:{
+    type: Number,
+    required: true
    }
 });
 

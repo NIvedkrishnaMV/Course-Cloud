@@ -1,150 +1,121 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, IconButton, Stack, Link } from '@mui/material';
+import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Modal,
+  IconButton,
+} from "@mui/material";
 
 const FacultyLog = ({ handleClose }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  // Handle form submission
-  const handleFLSubmit = async (event) => {
-    event.preventDefault();
-    setError(""); // Reset error message
-
-    // Basic validation
-    if (!email || !password) {
-      setError("Please fill in all fields.");
-      return;
+  const handleValidation = () => {
+    const newErrors = {};
+    // Email validation
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Invalid email format.";
     }
+    // Password validation
+    if (!password.trim()) {
+      newErrors.password = "Password is required.";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+    setErrors(newErrors);
+  };
 
-    try {
-      const response = await axios.post('http://localhost:3001/apit/log', { email, password });
-      if (response.status === 200) {
-        alert("Welcome Faculty");
-        navigate('/landing', { replace: true });
-      } else if (response.status === 404) {
-        const errorMessage = response.data;
-        if (errorMessage === 'Email not registered') {
-          setError('Email not registered.');
-        } else if (errorMessage === 'Incorrect password') {
-          setError('Incorrect password.');
-        } else {
-          setError('An error occurred during login.');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    handleValidation();
+
+    if (!errors.email && !errors.password) {
+      try {
+        const response =await axios.post('http://localhost:3001/apit/log',{email,password});
+        localStorage.setItem('token',response.data.token);
+        if (response.data.status === 'success'){
+          alert(response.data.message);
+          navigate('/landing', { replace: true })
         }
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          setError(`Login error: ${error.response.data}`);
-        } else {
-          setError("Login request failed.");
+        if(response.data.status==='error'){
+          alert(response.data.message);
         }
-      } else {
-        console.error(error);
-        setError("An unexpected error occurred.");
+      } catch (error) {
+        alert("Something went wrong");
       }
     }
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: { xs: "90%", sm: "400px" },
-        bgcolor: "background.paper",
-        boxShadow: 24,
-        borderRadius: 2,
-        p: 4,
-        zIndex: 1300,
-      }}
-    >
-      {/* Close Button */}
-      <IconButton
-        sx={{ position: "absolute", top: 10, right: 10 }}
-        onClick={handleClose}
+    <Modal open={true}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+        }}
       >
-        <CloseIcon />
-      </IconButton>
-
-      {/* Header */}
-      <Typography variant="h4" sx={{ mb: 2, textAlign: "center", fontWeight: "bold" }}>
-        Faculty Login
-      </Typography>
-
-      {/* Error Message */}
-      {error && (
-        <Typography
-          variant="body2"
-          color="error"
-          sx={{ mb: 2, textAlign: "center" }}
+        <IconButton
+          sx={{ position: "absolute", top: 10, right: 10 }}
+          onClick={handleClose}
         >
-          {error}
+          <CloseIcon />
+        </IconButton>
+        <Typography variant="h4" component="h1" textAlign="center" gutterBottom>
+          Faculty Login
         </Typography>
-      )}
-
-      {/* Login Form */}
-      <form onSubmit={handleFLSubmit}>
-        <Stack spacing={2}>
-          {/* Email Input */}
+        <form>
           <TextField
             fullWidth
+            margin="normal"
             label="Email"
             type="email"
-            variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            onBlur={handleValidation}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
           />
-
-          {/* Password Input */}
           <TextField
             fullWidth
+            margin="normal"
             label="Password"
             type="password"
-            variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            onBlur={handleValidation}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
           />
-
-          {/* Submit Button */}
           <Button
             fullWidth
             variant="contained"
             color="primary"
             type="submit"
+            sx={{ mt: 2 }}
+            onClick={handleSubmit}
+            disabled={Boolean(errors.email || errors.password)}
           >
             Log In
           </Button>
-        </Stack>
-      </form>
-
-      {/* Signup Redirect */}
-      <Typography
-        variant="body2"
-        sx={{ mt: 2, textAlign: "center" }}
-      >
-        New User?{" "}
-        <Link
-          component="button"
-          onClick={() => {
-            handleClose();
-            navigate('/signup');
-          }}
-          underline="hover"
-          sx={{ cursor: "pointer", color: "primary.main" }}
-        >
-          Signup
-        </Link>
-      </Typography>
-    </Box>
+        </form>
+      </Box>
+    </Modal>
   );
 };
 

@@ -1,49 +1,36 @@
 import React, { useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   Button,
   TextField,
   Typography,
   Modal,
+  IconButton,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const AdminLog = () => {
+const AdminLog = ({ handleClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleClose = () => {
-    console.log("Modal Closed");
-    // Add logic for closing the modal
-  };
+  const handleSubmit = () => {
 
-  const handleValidation = () => {
-    // Simple email validation logic
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    if (!emailPattern.test(email)) {
-      setError("Please enter a valid email address.");
-    } else {
-      setError("");
+    if (!email || !password) {
+      alert("Enter email and password")
     }
-  };
-
-  const handlePassValidation = () => {
-    // Add custom password validation logic here if needed
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-    } else {
-      setError("");
+    else if(email==="admin123@gmail.com" && password === "admin123"){
+      alert("Welcome Admin");
+      navigate('/admin');
     }
-  };
-
-  const handleULSubmit = (e) => {
-    e.preventDefault();
-    // Add form submission logic here
-    console.log("Form Submitted with Email:", email, "Password:", password);
+    else{
+      alert("Wrong email or password")
+    }
   };
 
   return (
-    <Modal open={true} onClose={handleClose}>
+    <Modal open={true}>
       <Box
         sx={{
           position: "absolute",
@@ -57,17 +44,12 @@ const AdminLog = () => {
           borderRadius: 2,
         }}
       >
-        <Button
-          sx={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            color: "gray",
-          }}
+        <IconButton
+          sx={{ position: "absolute", top: 10, right: 10 }}
           onClick={handleClose}
         >
-          X
-        </Button>
+          <CloseIcon />
+        </IconButton>
         <Typography variant="h4" component="h1" textAlign="center" gutterBottom>
           Admin Login
         </Typography>
@@ -79,9 +61,6 @@ const AdminLog = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onBlur={handleValidation}
-            error={Boolean(error)}
-            helperText={error && error}
           />
           <TextField
             fullWidth
@@ -90,9 +69,6 @@ const AdminLog = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onBlur={handlePassValidation}
-            error={Boolean(error)}
-            helperText={error && error}
           />
           <Button
             fullWidth
@@ -100,8 +76,7 @@ const AdminLog = () => {
             color="primary"
             type="submit"
             sx={{ mt: 2 }}
-            disabled={Boolean(error)}
-            onClick={handleULSubmit}
+            onClick={handleSubmit}
           >
             Log In
           </Button>

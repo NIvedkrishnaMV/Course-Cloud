@@ -3,26 +3,34 @@ const router = express.Router();
 const TeacherModel = require('../model/TeacherModel');
 const CourseModel = require('../model/CourseModel');
 const UniversityModel = require('../model/UniversityModel');
-const CteacherModel = require('../model/CurrentTeacher')
+const CteacherModel = require('../model/CurrentTeacher');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+const generateToken = (id) =>{
+  return jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: '1h'});
+}
+
 router.post("/reg", async(req,res)=>{
-    const {tname ,email, password ,age}=req.body;
-   try {
-    const adduser = new TeacherModel({
-      tname,
-      email,
-      password,
-      age
-    });
-    await adduser.save();
-    return res.json(adduser);
-   } catch (error) {
-    return res.send('Couldnt sign up');
-   }
-});
+  const {tname ,email, password ,age,gender,phone}=req.body;
+ try {
+  const adduser=new TeacherModel({
+    tname,
+    email,
+    password,
+    age,
+    gender,
+    phone
+  });
+  await adduser.save();
+  return res.status(200).json({ message: 'Signup successful!', status: 'success' });
+ } catch (error) {
+  return res.status(500).json({ message: 'Signup failed. Please try again later.', status: 'error' });
+ }
+ });
 
 router.get('/view', async(req,res)=>{
     try {
@@ -35,30 +43,19 @@ router.get('/view', async(req,res)=>{
 });
 
 router.post('/log', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await TeacherModel.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ error: "Email not registered" });
-        } else if (password === user.password) { 
-            console.log(user)
-            const adduser=new CteacherModel({
-                tname:user.tname,
-                email:user.email,
-                password:user.password,
-                age:user.age
-              });
-              await adduser.save();
-              return res.status(200).json({ redirect: '/landing', isAdmin: false }); // Redirect to landing
-        }
-        else {
-            
-            return res.status(401).json({ error: "Incorrect password" });
-        }
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Internal Server Error" });
+  try {
+    const { email, password } = req.body;
+    const user =await TeacherModel.findOne({email});
+    if(user && (password == user.password )){
+      const token = generateToken(user._id);
+      return res.json({message: "Login successful", token, status: 'success' });
     }
+    res.status(401).json({message: "Invalid credentials", status: 'error' });
+  
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.delete('/del/:id', async(req,res)=>{
@@ -86,16 +83,19 @@ router.get('/TView', async (req, res) => {
     }
   });
 
-router.get('/proView',async(req,res)=>{
-  try{
-    CteacherModel.find({}).then(data=>{
-      res.send({status:"ok" ,data :data });
-    })
-  }
-  catch{
-    res.send({status:"error" ,data :null });
-  }
-});
+  router.get('/profile', async (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await TeacherModel.findById(decoded.id);
+        return res.json(user);
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+  });
   
 
 

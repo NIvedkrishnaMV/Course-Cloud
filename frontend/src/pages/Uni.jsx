@@ -22,12 +22,9 @@ const Uni = () => {
           const userConfirmed = window.confirm("Do you want to proceed?");
         
           if (userConfirmed) {
-            axios.delete("http://localhost:3001/apiu/logout");
             sessionStorage.clear();
             alert("Logged Out");
-            navigate('/');
-          } else {
-            navigate('/uni') 
+            navigate('/', { replace: true });
           } 
         } catch (error) {
           console.error("Error during logout:", error);

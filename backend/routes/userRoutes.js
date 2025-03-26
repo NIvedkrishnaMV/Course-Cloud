@@ -2,45 +2,47 @@ const express=require('express');
 const router=express.Router();
 const UserModel=require('../model/UserModel')
 const CuserModel=require('../model/CurrentUser');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+const generateToken = (id) =>{
+  return jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: '1h'});
+}
+
 
 router.post('/log', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (email === "admin@gmail.com" && password === "admin") {
-      return res.status(200).json({ isAdmin:true });
+    const user =await UserModel.findOne({email});
+    if(user && (password == user.password )){
+      const token = generateToken(user._id);
+      return res.json({message: "Login successful", token, status: 'success' });
     }
-    else
-    {
-      const user = await UserModel.findOne({ email });
-      if (!user) {
-        return res.status(404).json({ error: "Email not registered" });
-      }
-      else if (await password  === user.password) {
-        const adduser=new CuserModel({
-          uname:user.uname,
-          email:user.email,
-          password:user.password,
-          age:user.age,
-          gender:user.gender,
-          phone:user.phone
-        });
-        await adduser.save();
-        return res.status(200).json({ isAdmin:false });
-      } else {
-        return res.status(401).json({ error: "Incorrect password" });
-      }
-    }
+    res.status(401).json({message: "Invalid credentials", status: 'error' });
+  
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+router.get('/profile', async (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await UserModel.findById(decoded.id);
+      return res.json(user);
+  } catch (error) {
+      return res.status(401).json({ message: 'Invalid token' });
+  }
+});
 
  router.post("/reg", async(req,res)=>{
   const {uname ,email, password ,age,gender,phone}=req.body;
@@ -54,9 +56,9 @@ router.post('/log', async (req, res) => {
     phone
   });
   await adduser.save();
-  return res.json(adduser);
+  return res.status(200).json({ message: 'Signup successful!', status: 'success' });
  } catch (error) {
-  return res.send('Couldnt sign up');
+  return res.status(500).json({ message: 'Signup failed. Please try again later.', status: 'error' });
  }
  });
 
@@ -73,17 +75,7 @@ router.get('/view',async(req,res)=>{
   }
 
 })
-router.get('/proView',async(req,res)=>{
-  try{
-    CuserModel.find({}).then(data=>{
-      res.send({status:"ok" ,data :data });
-    })
-  }
-  catch{
-    res.send({status:"error" ,data :null });
-  }
 
-})
 
 router.delete('/logout', async (req, res) => {
   try {

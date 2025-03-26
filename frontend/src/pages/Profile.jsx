@@ -7,42 +7,57 @@ import { Button } from '@mui/material';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [profiles, setProfiles] = useState([]); 
+  const [user, setUser] = useState([]); 
   const [name, setName] =useState('');
   const location = useLocation();
   const isTeacher = location.state?.isTeacher;
 
-  
+
 
   const goHome=()=>{
     setName('')
-    setProfiles([])
     navigate(-1, { replace: true })
   }
 
 
   useEffect(() => {
-    if(isTeacher){
-      axios.get("http://localhost:3001/apit/proView")
-      .then(response => {
-        const firstElement =response.data.data[0];
-        setProfiles(firstElement);
-        setName(firstElement.tname)
-      })
-      .catch(error => {
-        console.error("There was an error making the request:", error);
-      });
+    if(isTeacher==="true"){
+      const fetchProfile = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('No token found, please log in.');
+            return;
+        }
+        try {
+            const response = await axios.get('http://localhost:3001/apit/profile', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setUser(response.data)
+            setName(response.data.tname)
+        } catch (error) {
+            alert(response.data.message);
+        }
+    };
+      fetchProfile();
     }
-    else{
-      axios.get("http://localhost:3001/apiu/proView")
-      .then(response => {
-        const firstElement =response.data.data[0];
-        setProfiles(firstElement);
-        setName(firstElement.uname)
-      })
-      .catch(error => {
-        console.error("There was an error making the request:", error);
-      });
+    if(isTeacher==="false"){
+      const fetchProfile = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('No token found, please log in.');
+            return;
+        }
+        try {
+            const response = await axios.get('http://localhost:3001/apiu/profile', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setUser(response.data)
+            setName(response.data.uname)
+        } catch (error) {
+            alert(response.data.message);
+        }
+    };
+      fetchProfile();
     }
   }, []);
 
@@ -53,7 +68,6 @@ const Profile = () => {
       if (userConfirmed) {
         axios.delete("http://localhost:3001/apiu/logout");
         setName('')
-        setProfiles([])
         alert("Logged Out");
         navigate('/',{ replace: true });
       } else {
@@ -85,8 +99,8 @@ const Profile = () => {
         <h1>PROFILE</h1> 
       </header>
       <div className="profile-content">
-        {profiles? (
-          <div className="profile-info" key={profiles._id}>
+        {user? (
+          <div className="profile-info" key={user._id}>
             
             <div className="avatar">
               <svg width="100" height="100" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,8 +110,8 @@ const Profile = () => {
               </svg>
             </div>
             <h2>Name: {name}</h2> 
-            <h3>Age: {profiles.age}</h3>
-            <p>Email: {profiles.email}</p> 
+            <h3>Age: {user.age}</h3>
+            <p>Email: {user.email}</p> 
 
             <Button
       variant="contained"

@@ -55,12 +55,9 @@ function LandingPage() {
       const userConfirmed = window.confirm("Do you want to proceed?");
     
       if (userConfirmed) {
-        axios.delete("http://localhost:3001/apit/logout");
         sessionStorage.clear();
         alert("Logged Out");
         navigate('/', { replace: true });
-      } else {
-        navigate('/landing', { replace: true }) 
       } 
     } catch (error) {
       console.error("Error during logout:", error);
@@ -84,48 +81,35 @@ function LandingPage() {
     fetchData();
   }, []);
 
-  
- 
-  
-
-  const getUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3001/apit/TView`);
-      if (response.data && response.data.data && response.data.data.length > 0) {
-        const firstElement = response.data.data[0]; 
-        
-        sessionStorage.setItem("user", JSON.stringify(firstElement));
-      } else {
-        console.error("No data found in the response or the array is empty");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
-  
-  
   const getPdf = async () => {
     try {
-      // Retrieve user data from session storage
-      const storedUser = sessionStorage.getItem("user");
-      if(!storedUser){
-        getUser();
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('No token found, please log in.');
+        return;
       }
+
+      const userResponse = await axios.get('http://localhost:3001/apit/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const authorName = userResponse.data.tname;
   
-      if (storedUser) {
-        const user = JSON.parse(storedUser); // Parse the user data
-        // Fetch PDF data using the user information
-        const result = await axios.get(`http://localhost:3001/apip/w-view?user=${user}`);
-        setAllPdf(result.data.data); 
-        setFilteredPdf(result.data.data); 
-      } else {
-        console.error("No user data found in session storage.");
+      // Fetching PDFs where author matches the user's tname
+      const pdfResponse = await axios.get('http://localhost:3001/apip/w-view', {
+        params: { user: authorName },
+      });
+      if (pdfResponse) {
+        console.log('Fetched PDFs:', pdfResponse.data.data);
+        setAllPdf(pdfResponse.data.data)
+      }
+      else{
+        console.log("no pdfs found")
       }
     } catch (error) {
-      console.error("Error fetching PDF data:", error);
+      console.error('Error fetching PDF data:', error);
     }
   };
+  
   
     // Apply filter when course or university filter changes
     useEffect(() => {
@@ -156,7 +140,7 @@ function LandingPage() {
   };
 
   const handlepro = () => {
-    navigate( '/profile' ,  { state: { isTeacher: true } });
+    navigate( '/profile' ,  { state: { isTeacher: "true" } });
   };
   
   return (

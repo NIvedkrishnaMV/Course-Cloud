@@ -6,7 +6,7 @@ require('./db/connections.js');
 const userRoutes= require('./routes/userRoutes.js');
 const pdfRoutes = require('./routes/pdfRoutes.js');
 const teacherRoutes = require('./routes/teacherRoutes.js');
-const Port= 3001;
+const Port= process.env.PORT || 3001;
 
 
 const app = express();

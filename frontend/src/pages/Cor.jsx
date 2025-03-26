@@ -22,12 +22,9 @@ const Cor = () => {
           const userConfirmed = window.confirm("Do you want to proceed?");
         
           if (userConfirmed) {
-            axios.delete("http://localhost:3001/apiu/logout");
             sessionStorage.clear();
             alert("Logged Out");
             navigate('/', { replace: true });
-          } else {
-            navigate('/cor') 
           } 
         } catch (error) {
           console.error("Error during logout:", error);

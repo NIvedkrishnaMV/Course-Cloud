@@ -83,25 +83,21 @@ function ULandingPage() {
 
   const handleLogOut = async () => {
     try {
-      const userConfirmed = window.confirm('Do you want to proceed?');
-
+      const userConfirmed = window.confirm("Do you want to proceed?");
+    
       if (userConfirmed) {
-        console.log(userConfirmed)
-        await axios.delete('http://localhost:3001/apiu/logout');
-        alert('Logged Out');
+        sessionStorage.clear();
+        alert("Logged Out");
         navigate('/', { replace: true });
-      } else {
-        console.log(userConfirmed)
-        navigate('/landing', { replace: true });
-      }
+      } 
     } catch (error) {
-      console.error('Error during logout:', error);
-      alert('Failed to log out. Please try again.');
+      console.error("Error during logout:", error);
+      alert("Failed to log out. Please try again.");
     }
   };
 
   const handlepro = () => {
-    navigate('/profile',{ state: { isTeacher: false } });
+    navigate('/profile',{ state: { isTeacher: "false" } });
   };
 
   const goHome = () => {

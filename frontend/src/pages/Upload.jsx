@@ -15,24 +15,34 @@ const Upload = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const navigate=useNavigate();
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const user = queryParams.get('user');
 
   useEffect(() => {
-    if (user && user.trim() !== "") {
-      const cleanUser = user.replace(/^"|"$/g, ''); 
-      setAuthor(cleanUser); 
-    } else {
-      console.error('Invalid user value: Empty or undefined.');
-    }
-  }, [])
+    const fetchAuthor = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.log('No token found, please log in.');
+          return;
+        }
+  
+        const userResponse = await axios.get('http://localhost:3001/apit/profile', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const authorName = userResponse.data.tname;
+        setAuthor(authorName);
+      } catch (error) {
+        console.error('Error fetching author name:', error);
+      }
+    };
+  
+    fetchAuthor(); 
+  }, []);
+  
 
   useEffect(() => {
     const fetchUniversities = async () => {
         try {
             const result = await axios.get("http://localhost:3001/apit/uni-view");
-            console.log("Fetched universities:", result.data.data);
             setUniversityOptions(result.data.data || []); // Use a default empty array if no data
         } catch (error) {
             console.error("Error fetching universities:", error);

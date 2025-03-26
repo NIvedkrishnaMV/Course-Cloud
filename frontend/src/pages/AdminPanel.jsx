@@ -44,9 +44,6 @@ const AdminPanel = () => {
       axios.delete("http://localhost:3001/apiu/logout");
       alert("Logged Out");
       navigate('/', { replace: true });
-    } else {
-      navigate('/admin', { replace: true })
-
     }
     }
   }
