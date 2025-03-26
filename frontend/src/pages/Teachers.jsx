@@ -34,8 +34,6 @@ const Teachers = () => {
             <th>Username</th>
             <th>Email</th>
             <th>Age</th>
-            <th>University</th>
-            <th>Course</th>
           </tr>
         </thead>
         <tbody className='dash-table-body'>
@@ -45,8 +43,6 @@ const Teachers = () => {
               <td>{data.tname}</td>
               <td>{data.email}</td>
               <td>{data.age}</td>
-              <td>{data.university}</td>
-              <td>{data.course}</td>
               <td>
                 <Link>
                   <button onClick={(e)=>handleDelete(data._id)}>
